@@ -1,437 +1,436 @@
-# Frontend User Interface Design Specification
+# 前端用户界面设计规范
 
-Based on the system architecture and API interface specifications, this document details the prototype design of the frontend user interface, including interface elements, layout structure, and user interaction flows.
+基于系统架构和API接口规范，本文档详细描述了前端用户界面的原型设计，包括界面元素、布局结构和用户交互流程。
 
-## 1. User Authentication Page (Login/Registration)
+## 1. 用户认证页面（登录/注册）
 
-### 1.1 Page Overview
-The user authentication page is the entry point for users to access the system, containing two functional modules: login and registration, using tab switching form.
+### 1.1 页面概述
+用户认证页面是用户访问系统的入口点，包含登录和注册模块，采用标签页切换形式。
 
-### 1.2 Interface Elements
+### 1.2 界面元素
 
-#### Login Module
-- **Logo/Brand Identity**: Located at the top center of the page
-- **Welcome Title**: Such as "Welcome Back"
-- **Username/Email Input Field**:
-  - Input Type: Text
-  - Placeholder: Please enter username or email
-  - Validation: Required field
-- **Password Input Field**:
-  - Input Type: Password
-  - Placeholder: Please enter password
-  - Validation: Required field, minimum length 6 characters
-- **Login Button**:
-  - Type: Primary button
-  - Text: Login
-  - Status: Enabled by default, shows loading state when submitting
-- **Remember Me Checkbox**: Optional feature
-- **Forgot Password Link**: Redirects to password reset page
-- **Register New Account Link**: Switches to registration tab
+#### 登录模块
+- **Logo/品牌标识**：位于页面顶部中央
+- **欢迎标题**：例如"欢迎回来"
+- **用户名/邮箱输入框**：
+  - 输入类型：文本
+  - 占位符：请输入用户名或邮箱
+  - 验证：必填字段
+- **密码输入框**：
+  - 输入类型：密码
+  - 占位符：请输入密码
+  - 验证：必填字段，最小长度6个字符
+- **登录按钮**：
+  - 类型：主要按钮
+  - 文本：登录
+  - 状态：默认启用，提交时显示加载状态
+- **记住我复选框**：可选功能
+- **忘记密码链接**：导航到密码重置页面
+- **注册新账户链接**：切换到注册标签页
 
-#### Registration Module
-- **Logo/Brand Identity**: Located at the top center of the page
-- **Welcome Title**: Such as "Create New Account"
-- **Username Input Field**:
-  - Input Type: Text
-  - Placeholder: Please enter username
-  - Validation: Required field, uniqueness validation
-- **Email Input Field**:
-  - Input Type: Email
-  - Placeholder: Please enter email address
-  - Validation: Required field, email format, uniqueness validation
-- **Password Input Field**:
-  - Input Type: Password
-  - Placeholder: Please enter password
-  - Validation: Required field, minimum length 6 characters
-- **Confirm Password Input Field**:
-  - Input Type: Password
-  - Placeholder: Please enter password again
-  - Validation: Required field, must match password
-- **Nickname Input Field** (Optional):
-  - Input Type: Text
-  - Placeholder: Please enter nickname
-- **Phone Number Input Field** (Optional):
-  - Input Type: Tel
-  - Placeholder: Please enter phone number
-- **Register Button**:
-  - Type: Primary button
-  - Text: Register
-  - Status: Enabled by default, shows loading state when submitting
-- **Already Have Account Link**: Switches to login tab
+#### 注册模块
+- **Logo/品牌标识**：位于页面顶部中央
+- **欢迎标题**：例如"创建新账户"
+- **用户名输入框**：
+  - 输入类型：文本
+  - 占位符：请输入用户名
+  - 验证：必填字段，唯一性验证
+- **邮箱输入框**：
+  - 输入类型：邮箱
+  - 占位符：请输入邮箱地址
+  - 验证：必填字段，邮箱格式，唯一性验证
+- **密码输入框**：
+  - 输入类型：密码
+  - 占位符：请输入密码
+  - 验证：必填字段，最小长度6个字符
+- **确认密码输入框**：
+  - 输入类型：密码
+  - 占位符：请再次输入密码
+  - 验证：必填字段，与密码一致
+- **昵称输入框**（可选）：
+  - 输入类型：文本
+  - 占位符：请输入昵称
+- **手机号输入框**（可选）：
+  - 输入类型：电话
+  - 占位符：请输入手机号
+- **注册按钮**：
+  - 类型：主要按钮
+  - 文本：注册
+  - 状态：默认启用，提交时显示加载状态
+- **已有账户链接**：切换到登录标签页
 
-### 1.3 Layout Structure
+### 1.3 布局结构
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                      Logo/Brand Identity                    │
+│                      Logo/品牌标识                           │
 ├─────────────────────────────────────────────────────────────┤
 │  ┌─────────────────────────────────────────────────────────┐ │
-│  │                  Welcome Title                          │ │
+│  │                  欢迎标题                                │ │
 │  ├─────────────────────────────────────────────────────────┤ │
 │  │  ┌─┬────────────┬─┐    ┌─┬────────────┬─┐               │ │
-│  │  │ │   Login    │ │    │ │ Register   │ │               │ │
+│  │  │ │   登录     │ │    │ │   注册     │ │               │ │
 │  │  └─┴────────────┴─┘    └─┴────────────┴─┘               │ │
 │  ├─────────────────────────────────────────────────────────┤ │
-│  │  [Username/Email Input Field]                           │ │
-│  │  [Password Input Field]                                 │ │
-│  │  [Remember Me][Forgot Password]                         │ │
-│  │  [Login Button]                                         │ │
-│  │  [Register New Account Link]                            │ │
+│  │  [用户名/邮箱输入框]                                     │ │
+│  │  [密码输入框]                                           │ │
+│  │  [记住我][忘记密码]                                     │ │
+│  │  [登录按钮]                                             │ │
+│  │  [注册新账户链接]                                       │ │
 │  └─────────────────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### 1.4 User Interaction Flow
+### 1.4 用户交互流程
 
-#### Login Flow
-1. User enters username/email and password
-2. Clicks login button
-3. Frontend validates input format
-4. Submits to backend API `/api/auth/login`
-5. Based on response results:
-   - Success: Save JWT Token to local storage, redirect to main interface
-   - Failure: Display error message (such as incorrect username or password)
+#### 登录流程
+1. 用户输入用户名/邮箱和密码
+2. 点击登录按钮
+3. 前端验证输入格式
+4. 提交到后端API `/api/auth/login`
+5. 根据响应结果：
+   - 成功：将JWT Token保存到本地存储，导航到主界面
+   - 失败：显示错误信息（如用户名或密码不正确）
 
-#### Registration Flow
-1. User fills in registration information
-2. Frontend validates input format
-3. Clicks register button
-4. Submits to backend API `/api/auth/register`
-5. Based on response results:
-   - Success: Display registration success message, auto-login or redirect to login page
-   - Failure: Display error message (such as username already exists)
+#### 注册流程
+1. 用户填写注册信息
+2. 前端验证输入格式
+3. 点击注册按钮
+4. 提交到后端API `/api/auth/register`
+5. 根据响应结果：
+   - 成功：显示注册成功信息，自动登录或导航到登录页面
+   - 失败：显示错误信息（如用户名已存在）
 
-## 2. Main Interface (Conversation List and Current Conversation Window)
+## 2. 主界面（对话列表和当前对话窗口）
 
-### 2.1 Page Overview
-The main interface is the core page for daily user usage, divided into left conversation list area and right current conversation window area.
+### 2.1 页面概述
+主界面是用户日常使用的核心页面，分为左侧对话列表区域和右侧当前对话窗口区域。
 
-### 2.2 Interface Elements
+### 2.2 界面元素
 
-#### Top Navigation Bar
-- **Logo/Brand Identity**: Left side
-- **User Avatar/Nickname**: Right dropdown menu
-  - Profile
-  - User Settings
-  - History Records
-  - Logout
-- **New Conversation Button**: Primary button, located in center or right of navigation bar
+#### 顶部导航栏
+- **Logo/品牌标识**：左侧
+- **用户头像/昵称**：右侧下拉菜单
+  - 个人资料
+  - 用户设置
+  - 历史记录
+  - 登出
+- **新建对话按钮**：主要按钮，位于导航栏中央或右侧
 
-#### Left Conversation List Area
-- **Search Box**: Search conversations by title or content
-- **Conversation List**:
-  - Each conversation item includes:
-    - Conversation title (default to "New Conversation" or first few sentences summary)
-    - AI model name used
-    - Last update time
-    - Delete button (shown on hover)
-- **Pagination Controls**: Supports pagination browsing for large number of conversations
+#### 左侧对话列表区域
+- **搜索框**：按标题或内容搜索对话
+- **对话列表**：
+  - 每个对话项包含：
+    - 对话标题（默认"新对话"或前几句摘要）
+    - 使用的AI模型名称
+    - 最后更新时间
+    - 删除按钮（悬停时显示）
+- **分页控件**：支持大量对话的分页浏览
 
-#### Right Current Conversation Window Area
-- **Conversation Title Bar**:
-  - Editable conversation title
-  - Display of AI model used
-  - Conversation settings button
-- **Message History Area**:
-  - User messages (right-aligned, different background color)
-  - AI assistant messages (left-aligned, different background color)
-  - Support for multiple content type display:
-    - Text content
-    - Image content
-    - Video content (thumbnail + play button)
-- **Input Area**:
-  - Multi-line text input box
-  - Attachment upload button (images, videos)
-  - Send button
-  - Quick action buttons (such as clear input)
+#### 右侧当前对话窗口区域
+- **对话标题栏**：
+  - 可编辑的对话标题
+  - 显示使用的AI模型
+  - 对话设置按钮
+- **消息历史区域**：
+  - 用户消息（右对齐，不同背景色）
+  - AI助手消息（左对齐，不同背景色）
+  - 支持多种内容类型显示：
+    - 文本内容
+    - 图片内容
+    - 视频内容（缩略图+播放按钮）
+- **输入区域**：
+  - 多行文本输入框
+  - 附件上传按钮（图片、视频）
+  - 发送按钮
+  - 快捷操作按钮（如清空输入）
 
-### 2.3 Layout Structure
+### 2.3 布局结构
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│ Logo  [New Conversation]                                  [User Avatar▼]    │
+│ Logo  [新建对话]                                  [用户头像▼]               │
 ├────────────────────────────────┬────────────────────────────────────────────┤
-│ Conversation List Area         │ Current Conversation Window Area           │
+│ 对话列表区域                   │ 当前对话窗口区域                           │
 │                                │                                            │
-│ [Search Box]                   │ [Conversation Title Bar]                   │
+│ [搜索框]                       │ [对话标题栏]                               │
 │                                │                                            │
 │ ┌────────────────────────────┐ │ ┌────────────────────────────────────────┐ │
-│ │ Conversation 1             │ │ │ User Message                           │ │
-│ │ Title: How to Learn AI     │ │ │                                        │ │
-│ │ Model: qwen-vl-max-latest  │ │ └────────────────────────────────────────┘ │
-│ │ Time: 2023-01-01 10:00     │ │ ┌────────────────────────────────────────┐ │
-│ └────────────────────────────┘ │ │ AI Assistant Message                   │ │
+│ │ 对话1                      │ │ │ 用户消息                               │ │
+│ │ 标题: 如何学习AI           │ │ │                                        │ │
+│ │ 模型: qwen-vl-max-latest   │ │ └────────────────────────────────────────┘ │
+│ │ 时间: 2023-01-01 10:00     │ │ ┌────────────────────────────────────────┐ │
+│ └────────────────────────────┘ │ │ AI助手消息                             │ │
 │ ┌────────────────────────────┐ │ │                                        │ │
-│ │ Conversation 2             │ │ └────────────────────────────────────────┘ │
-│ │ Title: Image Recognition   │ │                                            │
-│ │ Model: qwen-plus           │ │                                            │
-│ │ Time: 2023-01-01 09:30     │ │                                            │
+│ │ 对话2                      │ │ └────────────────────────────────────────┘ │
+│ │ 标题: 图像识别             │ │                                            │
+│ │ 模型: qwen-plus            │ │                                            │
+│ │ 时间: 2023-01-01 09:30     │ │                                            │
 │ └────────────────────────────┘ │                                            │
-│ ...                            │ [Input Area]                               │
-│                                │ [Text Box][Attachment][Send]               │
+│ ...                            │ [输入区域]                                 │
+│                                │ [文本框][附件][发送]                       │
 └────────────────────────────────┴────────────────────────────────────────────┘
 ```
 
-### 2.4 User Interaction Flow
+### 2.4 用户交互流程
 
-#### New Conversation Flow
-1. User clicks "New Conversation" button
-2. Calls backend API `/api/conversations` to create new conversation
-3. Upon success, refreshes conversation list and selects newly created conversation
-4. Clears current conversation window content
+#### 新建对话流程
+1. 用户点击"新建对话"按钮
+2. 调用后端API `/api/conversations` 创建新对话
+3. 成功时，刷新对话列表并选择新创建的对话
+4. 清空当前对话窗口内容
 
-#### Send Message Flow
-1. User enters text or uploads attachment in input box
-2. Clicks send button or presses Enter key
-3. Frontend validates input content
-4. Displays user message in conversation window
-5. Calls backend API `/api/conversations/{conversation_id}/messages` to send message
-6. Shows loading state
-7. Receives AI assistant response and displays
-8. Updates last update time in conversation list
+#### 发送消息流程
+1. 用户在输入框中输入文本或上传附件
+2. 点击发送按钮或按回车键
+3. 前端验证输入内容
+4. 在对话窗口中显示用户消息
+5. 调用后端API `/api/conversations/{conversation_id}/messages` 发送消息
+6. 显示加载状态
+7. 接收AI助手响应并显示
+8. 更新对话列表中的最后更新时间
 
-#### Switch Conversation Flow
-1. User clicks any conversation in left conversation list
-2. Loads message history of that conversation (calls `/api/conversations/{conversation_id}/messages`)
-3. Updates right conversation window content
-4. Updates conversation title bar information
+#### 切换对话流程
+1. 用户点击左侧对话列表中的任意对话
+2. 加载该对话的消息历史（调用 `/api/conversations/{conversation_id}/messages`）
+3. 更新右侧对话窗口内容
+4. 更新对话标题栏信息
 
-## 3. Conversation Details Page
+## 3. 对话详情页面
 
-### 3.1 Page Overview
-The conversation details page displays complete information of a specific conversation, including conversation metadata and detailed message history.
+### 3.1 页面概述
+对话详情页面显示特定对话的完整信息，包括对话元数据和详细消息历史。
 
-### 3.2 Interface Elements
+### 3.2 界面元素
 
-#### Top Breadcrumb Navigation
-- Home > Conversation List > Conversation Details
+#### 顶部面包屑导航
+- 首页 > 对话列表 > 对话详情
 
-#### Conversation Information Area
-- **Conversation Title**: Editable
-- **AI Model**: Displays model name used
-- **Creation Time**: Conversation creation time
-- **Last Update Time**: Conversation last update time
-- **Conversation Status**: In Progress/Ended
-- **Action Buttons**:
-  - Edit conversation information
-  - Export conversation records
-  - Delete conversation
+#### 对话信息区域
+- **对话标题**：可编辑
+- **AI模型**：显示使用的模型名称
+- **创建时间**：对话创建时间
+- **最后更新时间**：对话最后更新时间
+- **对话状态**：进行中/已结束
+- **操作按钮**：
+  - 编辑对话信息
+  - 导出对话记录
+  - 删除对话
 
-#### Message History Area
-- **Message List**: Displays all messages in chronological order
-  - Distinguishes display of user messages and AI assistant messages
-  - Supports multiple content types (text, images, videos)
-  - Displays message sending time
-  - Message action menu (copy, delete, etc.)
+#### 消息历史区域
+- **消息列表**：按时间顺序显示所有消息
+  - 区分显示用户消息和AI助手消息
+  - 支持多种内容类型（文本、图片、视频）
+  - 显示消息发送时间
+  - 消息操作菜单（复制、删除等）
 
-#### Bottom Action Area
-- **Continue Conversation Button**: Redirects to main interface and loads this conversation
-- **Return to List Button**: Returns to conversation list page
+#### 底部操作区域
+- **继续对话按钮**：导航到主界面并加载此对话
+- **返回列表按钮**：返回到对话列表页面
 
-### 3.3 Layout Structure
+### 3.3 布局结构
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│ Home > Conversation List > Conversation Details                             │
+│ 首页 > 对话列表 > 对话详情                                                  │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│ Conversation Information Area                                               │
+│ 对话信息区域                                                                │
 │                                                                             │
-│ Title: How to Learn AI                          [Edit][Export][Delete]     │
-│ Model: qwen-vl-max-latest                                                   │
-│ Creation Time: 2023-01-01 10:00                                             │
-│ Last Update: 2023-01-01 10:15                                               │
-│ Status: In Progress                                                         │
+│ 标题: 如何学习AI                            [编辑][导出][删除]             │
+│ 模型: qwen-vl-max-latest                                                    │
+│ 创建时间: 2023-01-01 10:00                                                  │
+│ 最后更新: 2023-01-01 10:15                                                  │
+│ 状态: 进行中                                                                │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│ Message History Area                                                        │
+│ 消息历史区域                                                                │
 │                                                                             │
 │ ┌─────────────────────────────────────────────────────────────────────────┐ │
-│ │ [User Avatar] User Message                                              │ │
-│ │ Time: 2023-01-01 10:00                                                  │ │
-│ │ Content: I want to learn AI, what suggestions do you have?              │ │
+│ │ [用户头像] 用户消息                                                     │ │
+│ │ 时间: 2023-01-01 10:00                                                  │ │
+│ │ 内容: 我想学习人工智能，有什么建议吗？                                  │ │
 │ └─────────────────────────────────────────────────────────────────────────┘ │
 │                                                                             │
 │ ┌─────────────────────────────────────────────────────────────────────────┐ │
-│ │ AI Assistant Message [Avatar]                                           │ │
-│ │ Time: 2023-01-01 10:01                                                  │ │
-│ │ Content: Learning AI can start from several aspects...                  │ │
+│ │ AI助手消息 [头像]                                                       │ │
+│ │ 时间: 2023-01-01 10:01                                                  │ │
+│ │ 内容: 学习人工智能可以从几个方面开始...                                 │ │
 │ └─────────────────────────────────────────────────────────────────────────┘ │
 │                                                                             │
 │ ...                                                                         │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│ [Continue Conversation][Return to List]                                     │
+│ [继续对话][返回列表]                                                        │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 3.4 User Interaction Flow
+### 3.4 用户交互流程
 
-#### Edit Conversation Information Flow
-1. User clicks "Edit" button
-2. Pops up edit dialog, displays current conversation information
-3. User modifies conversation title and other information
-4. Submits to backend API `/api/conversations/{conversation_id}` to update conversation
-5. Updates page display upon success
+#### 编辑对话信息流程
+1. 用户点击"编辑"按钮
+2. 弹出编辑对话框，显示当前对话信息
+3. 用户修改对话标题和其他信息
+4. 提交到后端API `/api/conversations/{conversation_id}` 更新对话
+5. 成功时更新页面显示
 
-#### Delete Conversation Flow
-1. User clicks "Delete" button
-2. Pops up confirmation dialog
-3. User confirms deletion
-4. Calls backend API `/api/conversations/{conversation_id}` to delete conversation
-5. Redirects to conversation list page upon success
+#### 删除对话流程
+1. 用户点击"删除"按钮
+2. 弹出确认对话框
+3. 用户确认删除
+4. 调用后端API `/api/conversations/{conversation_id}` 删除对话
+5. 成功时导航到对话列表页面
 
-## 4. History Records Page
+## 4. 历史记录页面
 
-### 4.1 Page Overview
-The history records page displays users' API call history and conversation statistics, helping users understand usage patterns.
+### 4.1 页面概述
+历史记录页面显示用户的API调用历史和对话统计信息，帮助用户了解使用模式。
 
-### 4.2 Interface Elements
+### 4.2 界面元素
 
-#### Top Navigation Bar
-- Page Title: History Records
-- Time Filter: Filter by date range
-- Model Filter: Filter by AI model
+#### 顶部导航栏
+- 页面标题：历史记录
+- 时间筛选器：按日期范围筛选
+- 模型筛选器：按AI模型筛选
 
-#### Statistics Information Area
-- **Total Conversations**: Total number of conversations created by user
-- **Total Messages**: Total number of sent and received messages
-- **Total Tokens**: Total number of tokens consumed
-- **Model Usage Statistics**: Chart display of model usage statistics
+#### 统计信息区域
+- **总对话数**：用户创建的对话总数
+- **总消息数**：发送和接收的消息总数
+- **总令牌数**：消耗的令牌总数
+- **模型使用统计**：模型使用情况的图表显示
 
-#### API Call History Area
-- **Table View**:
-  - Call Time
-  - Model Used
-  - API Endpoint
-  - Status Code
-  - Tokens Consumed
-  - Call Duration
-- **Pagination Controls**: Supports pagination browsing for large number of records
-- **Export Button**: Export history records as CSV file
+#### API调用历史区域
+- **表格视图**：
+  - 调用时间
+  - 使用的模型
+  - API端点
+  - 状态码
+  - 消耗的令牌数
+  - 调用持续时间
+- **分页控件**：支持大量记录的分页浏览
+- **导出按钮**：将历史记录导出为CSV文件
 
-#### Chart Display Area
-- **Daily Usage Statistics Chart**: Line chart showing daily conversation, message, and token usage
-- **Model Usage Distribution Chart**: Pie chart showing model usage proportions
+#### 图表显示区域
+- **每日使用统计图表**：显示每日对话、消息和令牌使用量的折线图
+- **模型使用分布图表**：显示模型使用比例的饼图
 
-### 4.3 Layout Structure
+### 4.3 布局结构
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│ History Records                                                             │
+│ 历史记录                                                                    │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│ [Time Filter][Model Filter][Export Button]                                  │
+│ [时间筛选器][模型筛选器][导出按钮]                                          │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│ Statistics Information Area                                                 │
+│ 统计信息区域                                                                │
 │                                                                             │
 │ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐             │
-│ │ Total       │ │ Total       │ │ Total       │ │ Model       │             │
-│ │ Conversations││ Messages    │ │ Tokens      │ │ Statistics  │             │
+│ │ 总对话数    │ │ 总消息数    │ │ 总令牌数    │ │ 模型统计    │             │
 │ │     15      │ │     128     │ │    2560     │ │             │             │
 │ └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘             │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│ Chart Display Area                                                          │
+│ 图表显示区域                                                                │
 │                                                                             │
-│ [Daily Usage Statistics Chart]        [Model Usage Distribution Chart]      │
+│ [每日使用统计图表]        [模型使用分布图表]                                │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│ API Call History Area                                                       │
+│ API调用历史区域                                                             │
 │                                                                             │
-│ Time              Model              Endpoint         Status  Tokens  Duration│
+│ 时间              模型              端点              状态  令牌数  持续时间  │
 │ 2023-01-01 10:00  qwen-vl-max...   /api/bailian...   200     21      1200ms  │
 │ 2023-01-01 09:30  qwen-plus        /api/bailian...   200     15      800ms   │
 │ ...                                                                         │
 │                                                                             │
-│ [Pagination Controls]                                                       │
+│ [分页控件]                                                                  │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 4.4 User Interaction Flow
+### 4.4 用户交互流程
 
-#### Filtering Flow
-1. User selects time range or model filter conditions
-2. Automatically refreshes API call history and statistics
-3. Calls backend APIs `/api/history/api-calls` and `/api/history/conversations/statistics` to get data
-4. Updates page display
+#### 筛选流程
+1. 用户选择时间范围或模型筛选条件
+2. 自动刷新API调用历史和统计数据
+3. 调用后端API `/api/history/api-calls` 和 `/api/history/conversations/statistics` 获取数据
+4. 更新页面显示
 
-#### Export Flow
-1. User clicks export button
-2. Generates CSV file based on current filter conditions
-3. Downloads file to local machine
+#### 导出流程
+1. 用户点击导出按钮
+2. 根据当前筛选条件生成CSV文件
+3. 下载文件到本地
 
-## 5. User Settings Page
+## 5. 用户设置页面
 
-### 5.1 Page Overview
-The user settings page allows users to manage personal information, account security, and system preferences.
+### 5.1 页面概述
+用户设置页面允许用户管理个人信息、账户安全和系统偏好设置。
 
-### 5.2 Interface Elements
+### 5.2 界面元素
 
-#### Side Navigation Menu
-- Personal Information
-- Account Security
-- Notification Settings
-- Privacy Settings
+#### 侧边导航菜单
+- 个人信息
+- 账户安全
+- 通知设置
+- 隐私设置
 
-#### Personal Information Settings
-- **Avatar Upload**: Upload and crop user avatar
-- **Username**: Read-only display
-- **Email Address**: Read-only display (requires specific process to modify)
-- **Nickname**: Editable text box
-- **Phone Number**: Editable text box
-- **Save Button**: Save modified personal information
+#### 个人信息设置
+- **头像上传**：上传和裁剪用户头像
+- **用户名**：只读显示
+- **邮箱地址**：只读显示（需要特定流程修改）
+- **昵称**：可编辑文本框
+- **手机号**：可编辑文本框
+- **保存按钮**：保存修改的个人信息
 
-#### Account Security Settings
-- **Change Password**:
-  - Current Password Input Field
-  - New Password Input Field
-  - Confirm New Password Input Field
-  - Change Password Button
-- **Login History**: Display recent login records
-  - Login Time
-  - Login IP Address
-  - Login Device Information
+#### 账户安全设置
+- **修改密码**：
+  - 当前密码输入框
+  - 新密码输入框
+  - 确认新密码输入框
+  - 修改密码按钮
+- **登录历史**：显示最近登录记录
+  - 登录时间
+  - 登录IP地址
+  - 登录设备信息
 
-#### Notification Settings
-- **Email Notifications**: Toggle options
-  - System Announcement Notifications
-  - Conversation Update Notifications
-  - API Usage Reminders
-- **In-App Notifications**: Toggle options
-  - System Messages
-  - Important Updates
+#### 通知设置
+- **邮件通知**：切换选项
+  - 系统公告通知
+  - 对话更新通知
+  - API使用提醒
+- **应用内通知**：切换选项
+  - 系统消息
+  - 重要更新
 
-#### Privacy Settings
-- **Data Export**: Export user data
-- **Data Deletion**: Delete account (dangerous operation, requires confirmation)
+#### 隐私设置
+- **数据导出**：导出用户数据
+- **数据删除**：删除账户（危险操作，需要确认）
 
-### 5.3 Layout Structure
+### 5.3 布局结构
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│ User Settings                                                               │
+│ 用户设置                                                                    │
 ├────────────────────────────────┬────────────────────────────────────────────┤
-│ Side Navigation Menu           │ Settings Content Area                      │
+│ 侧边导航菜单                   │ 设置内容区域                               │
 │                                │                                            │
-│ • Personal Information         │ ┌────────────────────────────────────────┐ │
-│ • Account Security             │ │ [Avatar Upload]                        │ │
-│ • Notification Settings        │ │                                        │ │
-│ • Privacy Settings             │ │ Username: example_user (Read-only)     │ │
-│                                │ │ Email: user@example.com (Read-only)    │ │
-│                                │ │ Nickname: [Input Box]                  │ │
-│                                │ │ Phone Number: [Input Box]              │ │
+│ • 个人信息                     │ ┌────────────────────────────────────────┐ │
+│ • 账户安全                     │ │ [头像上传]                             │ │
+│ • 通知设置                     │ │                                        │ │
+│ • 隐私设置                     │ │ 用户名: example_user (只读)            │ │
+│                                │ │ 邮箱: user@example.com (只读)          │ │
+│                                │ │ 昵称: [输入框]                         │ │
+│                                │ │ 手机号: [输入框]                       │ │
 │                                │ │                                        │ │
-│                                │ │ [Save]                                 │ │
+│                                │ │ [保存]                                 │ │
 │                                │ └────────────────────────────────────────┘ │
 └────────────────────────────────┴────────────────────────────────────────────┘
 ```
 
-### 5.4 User Interaction Flow
+### 5.4 用户交互流程
 
-#### Modify Personal Information Flow
-1. User modifies nickname or phone number
-2. Clicks save button
-3. Frontend validates input format
-4. Submits to backend API `/api/auth/user` to update user information
-5. Displays success message upon success
+#### 修改个人信息流程
+1. 用户修改昵称或手机号
+2. 点击保存按钮
+3. 前端验证输入格式
+4. 提交到后端API `/api/auth/user` 更新用户信息
+5. 成功时显示成功信息
 
-#### Change Password Flow
-1. User enters current password, new password, and confirm new password
-2. Frontend validates password strength and consistency
-3. Clicks change password button
-4. Submits to backend API (requires specific API endpoint)
-5. Displays success message upon success, may require re-login
+#### 修改密码流程
+1. 用户输入当前密码、新密码和确认新密码
+2. 前端验证密码强度和一致性
+3. 点击修改密码按钮
+4. 提交到后端API（需要特定API端点）
+5. 成功时显示成功信息，可能需要重新登录
 
-## Summary
+## 总结
 
-This UI design specification is based on the system's API interface specifications and database design, covering core pages including user authentication, main interface, conversation details, history records, and user settings. The design focuses on user experience, providing clear interface elements, reasonable layout structure, and smooth interaction flows to meet users' core needs for interacting with AI models.
+本UI设计规范基于系统的API接口规范和数据库设计，涵盖了核心页面包括用户认证、主界面、对话详情、历史记录和用户设置。设计注重用户体验，提供清晰的界面元素、合理的布局结构和流畅的交互流程，以满足用户与AI模型交互的核心需求。

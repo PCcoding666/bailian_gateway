@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip show:*)",
+      "Bash(python3 -m pip show:*)",
+      "WebFetch(domain:help.aliyun.com)",
+      "Bash(mkdir -p:*)",
+      "Bash(git --version:*)",
+      "Bash(git config:*)",
+      "Bash(git config --global user.email)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": []
+  }
+}

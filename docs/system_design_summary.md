@@ -1,104 +1,104 @@
-# 阿里云百炼平台API集成平台系统设计总结
+# Alibaba Cloud Bailian API Integration Platform System Design Summary
 
-## 项目概述
+## Project Overview
 
-本项目旨在构建一个基于阿里云百炼平台API的集成平台，为C端用户提供统一的AI服务接口。该平台将支持多种AI模型的调用，包括通义千问、通义万相等，并提供对话历史记录功能。
+This project aims to build an integration platform based on Alibaba Cloud Bailian platform APIs, providing C-end users with a unified AI service interface. The platform will support calling multiple AI models, including Qwen and Wanx, and provide conversation history recording functionality.
 
-## 系统架构设计
+## System Architecture Design
 
-系统采用分层架构设计，包含以下核心组件：
+The system adopts a layered architecture design, including the following core components:
 
-1. **前端用户界面**：支持Web和移动端访问
-2. **后端API服务**：处理业务逻辑和API调用
-3. **阿里云百炼API集成模块**：封装阿里云百炼平台的API调用
-4. **数据库**：存储用户信息、对话历史和API调用记录
-5. **认证授权模块**：处理用户认证和权限控制
-6. **缓存层**：提高系统响应速度
-7. **日志监控模块**：记录系统运行日志和监控API调用
+1. **Frontend User Interface**: Support for Web and mobile access
+2. **Backend API Service**: Handling business logic and API calls
+3. **Alibaba Cloud Bailian API Integration Module**: Encapsulating Alibaba Cloud Bailian platform API calls
+4. **Database**: Storing user information, conversation history, and API call records
+5. **Authentication and Authorization Module**: Handling user authentication and permission control
+6. **Cache Layer**: Improving system response speed
+7. **Logging and Monitoring Module**: Recording system operation logs and monitoring API calls
 
-## 数据库设计
+## Database Design
 
-数据库包含四个核心表：
+The database contains four core tables:
 
-1. **用户表（users）**：存储用户基本信息
-2. **对话历史表（conversations）**：存储用户与AI的对话历史
-3. **对话消息表（messages）**：存储具体的对话消息
-4. **API调用记录表（api_calls）**：记录用户API使用情况
+1. **User Table (users)**: Storing basic user information
+2. **Conversation History Table (conversations)**: Storing user-AI conversation history
+3. **Conversation Messages Table (messages)**: Storing specific conversation messages
+4. **API Call Records Table (api_calls)**: Recording user API usage
 
-## API接口规范
+## API Interface Specification
 
-系统提供完整的RESTful API接口，包括：
+The system provides complete RESTful API interfaces, including:
 
-1. **用户认证相关接口**：注册、登录、登出、刷新token等
-2. **对话管理接口**：创建对话、获取对话列表、删除对话等
-3. **消息管理接口**：发送消息、获取消息历史等
-4. **阿里云百炼API代理接口**：调用各种AI模型
-5. **历史记录查询接口**：查询API调用历史和统计信息
+1. **User Authentication Related Interfaces**: Registration, login, logout, token refresh, etc.
+2. **Conversation Management Interfaces**: Create conversation, get conversation list, delete conversation, etc.
+3. **Message Management Interfaces**: Send messages, get message history, etc.
+4. **Alibaba Cloud Bailian API Proxy Interfaces**: Calling various AI models
+5. **History Record Query Interfaces**: Query API call history and statistics
 
-## 前端用户界面设计
+## Frontend User Interface Design
 
-前端界面包含以下核心页面：
+The frontend interface includes the following core pages:
 
-1. **用户认证页面**：登录/注册功能
-2. **主界面**：对话列表和当前对话窗口
-3. **对话详情页面**：展示特定对话的完整信息
-4. **历史记录页面**：展示API调用历史和统计信息
-5. **用户设置页面**：管理个人信息和系统偏好
+1. **User Authentication Page**: Login/registration functionality
+2. **Main Interface**: Conversation list and current conversation window
+3. **Conversation Detail Page**: Display complete information of specific conversations
+4. **History Records Page**: Display API call history and statistics
+5. **User Settings Page**: Manage personal information and system preferences
 
-## 安全认证和授权方案
+## Security Authentication and Authorization Scheme
 
-系统采用多层次的安全防护机制：
+The system adopts multi-layered security protection mechanisms:
 
-1. **用户认证机制**：基于JWT Token的认证方案
-2. **API接口授权机制**：基于RBAC的角色权限控制
-3. **数据传输安全**：强制使用HTTPS加密传输
-4. **密码安全策略**：使用bcrypt算法进行密码哈希存储
-5. **API调用频率限制**：基于令牌桶算法的限流机制
-6. **阿里云百炼API密钥安全管理**：密钥的安全存储和轮换机制
-7. **日志和审计机制**：完整的日志记录和审计追踪
+1. **User Authentication Mechanism**: JWT Token-based authentication scheme
+2. **API Interface Authorization Mechanism**: RBAC-based role permission control
+3. **Data Transmission Security**: Mandatory HTTPS encrypted transmission
+4. **Password Security Policy**: Using bcrypt algorithm for password hashing storage
+5. **API Call Rate Limiting**: Token bucket algorithm-based rate limiting mechanism
+6. **Alibaba Cloud Bailian API Key Security Management**: Secure storage and rotation mechanism for keys
+7. **Logging and Audit Mechanism**: Complete log recording and audit trail
 
-## 技术实现建议
+## Technical Implementation Recommendations
 
-### 后端技术栈
-- 编程语言：Python/Node.js/Java（根据团队技术栈选择）
-- Web框架：FastAPI/Express/Spring Boot
-- 数据库：MySQL/MongoDB
-- 缓存：Redis
-- 消息队列：RabbitMQ/Kafka（可选）
-- 容器化：Docker + Kubernetes
+### Backend Technology Stack
+- Programming Language: Python/Node.js/Java (based on team technology stack selection)
+- Web Framework: FastAPI/Express/Spring Boot
+- Database: MySQL/MongoDB
+- Cache: Redis
+- Message Queue: RabbitMQ/Kafka (optional)
+- Containerization: Docker + Kubernetes
 
-### 前端技术栈
-- Web端：React/Vue.js
-- 移动端：React Native/Flutter
-- 状态管理：Redux/Vuex
-- UI组件库：Ant Design/Material-UI
+### Frontend Technology Stack
+- Web: React/Vue.js
+- Mobile: React Native/Flutter
+- State Management: Redux/Vuex
+- UI Component Library: Ant Design/Material-UI
 
-### 安全实现
-- 使用JWT RS256算法确保Token安全性
-- bcrypt算法进行密码哈希存储
-- Redis实现API调用频率限制
-- 环境变量或密钥管理服务存储敏感信息
+### Security Implementation
+- Use JWT RS256 algorithm to ensure Token security
+- bcrypt algorithm for password hashing storage
+- Redis implementation of API call rate limiting
+- Environment variables or secret management services for storing sensitive information
 
-## 部署架构建议
+## Deployment Architecture Recommendations
 
-1. **开发环境**：本地开发环境，使用Docker Compose管理服务
-2. **测试环境**：独立的测试环境，包含完整的测试数据
-3. **生产环境**：
-   - 使用负载均衡器分发请求
-   - 数据库主从复制提高可用性
-   - Redis集群提高缓存性能
-   - CDN加速静态资源访问
-   - 监控告警系统保障服务稳定性
+1. **Development Environment**: Local development environment, using Docker Compose to manage services
+2. **Testing Environment**: Independent testing environment with complete test data
+3. **Production Environment**:
+   - Use load balancer to distribute requests
+   - Database master-slave replication to improve availability
+   - Redis cluster to improve cache performance
+   - CDN to accelerate static resource access
+   - Monitoring and alerting system to ensure service stability
 
-## 后续改进建议
+## Future Improvement Suggestions
 
-1. 集成多因素认证（MFA）提高账户安全性
-2. 实现单点登录（SSO）支持第三方登录
-3. 添加用户会话管理功能
-4. 实现更细粒度的权限控制
-5. 增加安全日志分析功能
-6. 实现自动化安全测试
+1. Integrate Multi-Factor Authentication (MFA) to improve account security
+2. Implement Single Sign-On (SSO) to support third-party login
+3. Add user session management functionality
+4. Implement more granular permission control
+5. Add security log analysis functionality
+6. Implement automated security testing
 
-## 总结
+## Summary
 
-本系统设计提供了一个完整的阿里云百炼平台API集成解决方案，具备良好的可扩展性、安全性和可维护性。通过模块化设计，各组件职责清晰，便于后续开发和维护。系统支持多种AI模型调用，并提供完善的对话历史记录功能，能够满足C端用户的需求。
+This system design provides a complete Alibaba Cloud Bailian platform API integration solution with good scalability, security, and maintainability. Through modular design, each component has clear responsibilities, facilitating subsequent development and maintenance. The system supports calling multiple AI models and provides comprehensive conversation history recording functionality, meeting the needs of C-end users.

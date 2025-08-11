@@ -6,9 +6,9 @@
 
 #### Implementation Plan:
 - Use JWT (JSON Web Tokens) for user identity authentication
-- Use asymmetric encryption algorithm (RS256) to ensure Token security
-- Access Token validity: 1 hour
-- Refresh Token validity: 7 days
+- Adopt asymmetric encryption algorithm (RS256) to ensure Token security
+- Access Token validity period: 1 hour
+- Refresh Token validity period: 7 days
 - Token contains basic user information (user_id, username, roles, etc.)
 
 #### Token Structure:
@@ -29,7 +29,7 @@
 }
 ```
 
-#### Authentication Flow:
+#### Authentication Process:
 1. User submits login credentials
 2. Backend verifies user identity
 3. Generate JWT Access Token and Refresh Token
@@ -44,7 +44,7 @@
 - Integrate third-party login (WeChat, GitHub, Google, etc.)
 - Use OAuth2.0 protocol standard
 - Provide standard authorization code flow
-- Support PKCE for enhanced security
+- Support PKCE to enhance security
 
 ## 2. API Interface Authorization Mechanism
 
@@ -60,16 +60,16 @@
 - Fine-grained API permission verification
 - Define required permission levels for each API endpoint
 
-#### Permission Verification Flow:
-1. Parse JWT Token to get user role information
+#### Permission Verification Process:
+1. Parse JWT Token to obtain user role information
 2. Check required permissions for API endpoint
-3. Verify if user role meets permission requirements
+3. Verify if user roles meet permission requirements
 4. Execute business logic if authorized, otherwise return 403 error
 
 ### 2.2 Data-Level Permission Control
 
 #### Implementation Plan:
-- Users can only access their own data (associated with user_id)
+- Users can only access their own data (associated with user ID)
 - Conversations and messages are isolated through user_id
 - Administrators can access all user data (determined by role)
 
@@ -78,7 +78,7 @@
 ### 3.1 HTTPS Encrypted Transmission
 
 #### Implementation Plan:
-- Mandatory use of HTTPS protocol
+- Enforce HTTPS protocol
 - TLS 1.2 or higher version
 - Use secure encryption suites
 - HSTS (HTTP Strict Transport Security) header
@@ -86,14 +86,14 @@
 ### 3.2 Sensitive Data Encryption Storage
 
 #### Implementation Plan:
-- User passwords stored using bcrypt hashing (already reflected in database design)
-- API keys encrypted during transmission
-- Sensitive configuration information encrypted storage
+- User passwords are stored using bcrypt hash (already reflected in database design)
+- API keys are encrypted during transmission
+- Sensitive configuration information is encrypted storage
 
 ### 3.3 Database Connection Security
 
 #### Implementation Plan:
-- Use SSL/TLS encrypted database connections
+- Use SSL/TLS to encrypt database connections
 - Configure database users with principle of least privilege
 - Rotate database credentials regularly
 
@@ -104,29 +104,29 @@
 #### Implementation Plan:
 - Minimum length: 8 characters
 - Must contain uppercase and lowercase letters, numbers, and special characters
-- Do not allow common weak passwords
-- Do not allow same as username or email
+- Disallow common weak passwords
+- Disallow same as username or email
 
 ### 4.2 Password Storage Security
 
 #### Implementation Plan:
 - Use bcrypt algorithm for hashing
-- Salt value automatically generated and stored
+- Salt value is automatically generated and stored
 - Hash iteration count: 12 rounds
 
 ### 4.3 Password Reset Mechanism
 
 #### Implementation Plan:
 - Send password reset link via email
-- Reset link validity: 1 hour
-- Original password immediately invalidated after reset
+- Reset link validity period: 1 hour
+- Original password is immediately invalidated after reset
 
 ## 5. API Call Rate Limiting
 
 ### 5.1 Rate Limiting Strategy
 
 #### Implementation Plan:
-- User-based API call rate limiting
+- Rate limiting based on user API calls
 - Regular users: 10 calls per minute
 - Premium users: 100 calls per minute
 - Administrators: No limit or higher limit
@@ -141,7 +141,7 @@
 ### 5.3 Rate Limiting Response
 
 #### Implementation Plan:
-- Return 429 status code when limit exceeded
+- Return 429 status code when limit is exceeded
 - Include rate limiting information in response headers:
   - X-RateLimit-Limit: 100
   - X-RateLimit-Remaining: 99
@@ -152,10 +152,10 @@
 ### 6.1 Key Storage Security
 
 #### Implementation Plan:
-- API keys not stored in database
-- Use environment variables or secret management services (e.g., HashiCorp Vault)
+- API keys are not stored in the database
+- Use environment variables or secret management services (such as HashiCorp Vault)
 - Rotate API keys regularly
-- Use multiple keys in rotation to reduce single point of failure
+- Rotate multiple keys to reduce single point of failure
 
 ### 6.2 Key Access Control
 
@@ -164,12 +164,12 @@
 - Use service account principle of least privilege
 - Log key access
 
-### 6.3 Key Leakage Protection
+### 6.3 Key Leak Protection
 
 #### Implementation Plan:
 - Monitor abnormal key usage
 - Automatically disable suspicious keys
-- Establish key leakage emergency response process
+- Establish key leak emergency response process
 
 ## 7. Logging and Audit Mechanism
 
@@ -186,7 +186,7 @@
 
 #### Implementation Plan:
 - Desensitize sensitive information
-- Encrypt log file storage
+- Encrypt log files for storage
 - Control log access permissions
 - Regular backup and archiving
 
@@ -194,7 +194,7 @@
 
 #### Implementation Plan:
 - Record user operation trails
-- Associate user ID, operation time, operation type, affected data
+- Associate user ID, operation time, operation type, and affected data
 - Provide audit log query interface
 - Generate security audit reports regularly
 
@@ -334,14 +334,14 @@ def rate_limit(max_requests=100, window=60):
 
 - Monitor abnormal login behavior in real-time
 - Monitor API call anomaly patterns
-- Set up security event alerting mechanisms
-- Regularly perform security scans and penetration testing
+- Set up security incident alerting mechanisms
+- Regularly perform security scanning and penetration testing
 
 ### 9.4 Incident Response Plan
 
-- Establish security incident response procedures
-- Emergency handling of key leaks
-- Emergency handling of user data leaks
+- Establish security incident response process
+- Key leak emergency handling
+- User data leak emergency handling
 - System vulnerability remediation process
 
 ## 10. Future Improvement Suggestions

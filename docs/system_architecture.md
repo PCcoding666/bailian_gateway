@@ -1,209 +1,210 @@
-# 阿里云百炼平台API集成平台系统架构设计
+# System Architecture Design for Alibaba Cloud Bailian API Integration Platform
 
-## 概述
+## Overview
 
-本系统架构设计旨在构建一个基于阿里云百炼平台API的集成平台，为用户提供统一的AI服务接口。该架构包含前端用户界面、后端API服务、用户认证授权、阿里云百炼API集成、数据库存储、缓存层以及日志监控等核心组件。
+This system architecture design aims to build an integration platform based on Alibaba Cloud Bailian platform APIs, providing users with a unified AI service interface. The architecture includes core components such as front-end user interface, back-end API services, user authentication and authorization, Alibaba Cloud Bailian API integration, database storage, caching layer, and logging monitoring.
 
-## 系统架构图
+## System Architecture Diagram
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                    用户端 (Web/移动端)                                      │
+│                                    Client (Web/Mobile)                                      │
 └─────────────────────────┬───────────────────────────────────────────────────────────────────┘
-                          │ HTTP/HTTPS 请求
+                          │ HTTP/HTTPS Requests
                           ▼
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                API网关/负载均衡器                                           │
+│                                API Gateway/Load Balancer                                    │
 └─────────────────────────┬───────────────────────────────────────────────────────────────────┘
                           │
                           ▼
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
-│                              前端Web服务器 (Nginx等)                                        │
+│                              Front-end Web Server (Nginx, etc.)                             │
 └─────────────────────────┬───────────────────────────────────────────────────────────────────┘
                           │
                           ▼
 ┌─┬─────────────────────────────────────────────────────────────────────────────────────────┬─┐
-│ │                        后端API服务 (Node.js/Python/Java等)                              │ │
+│ │                        Back-end API Service (Node.js/Python/Java, etc.)                 │ │
 │ ├─────────────────────────────────────────────────────────────────────────────────────────┤ │
 │ │  ┌──────────────────────────────────────────────────────────────────────────────────┐   │ │
-│ │  │                  用户认证和授权模块 (Auth Module)                                │   │ │
+│ │  │                  User Authentication & Authorization Module                      │   │ │
 │ │  └──────────────────────────────────────────────────────────────────────────────────┘   │ │
 │ │  ┌──────────────────────────────────────────────────────────────────────────────────┐   │ │
-│ │  │              阿里云百炼API集成模块 (Bailian API Integration)                     │   │ │
+│ │  │              Alibaba Cloud Bailian API Integration Module                       │   │ │
 │ │  └──────────────────────────────────────────────────────────────────────────────────┘   │ │
 │ │  ┌──────────────────────────────────────────────────────────────────────────────────┐   │ │
-│ │  │                   业务逻辑处理模块 (Business Logic)                              │   │ │
+│ │  │                   Business Logic Processing Module                              │   │ │
 │ │  └──────────────────────────────────────────────────────────────────────────────────┘   │ │
 │ │  ┌──────────────────────────────────────────────────────────────────────────────────┐   │ │
-│ │  │                    日志和监控模块 (Logging & Monitoring)                         │   │ │
+│ │  │                    Logging & Monitoring Module                                  │   │ │
 │ │  └──────────────────────────────────────────────────────────────────────────────────┘   │ │
 │ └─────────────────────────────────────────────────────────────────────────────────────────┘ │
 │   │                    │                    │                    │                         │
 │   │                    │                    │                    │                         │
 │   ▼                    ▼                    ▼                    ▼                         │
 │ ┌─────────┐      ┌──────────┐        ┌────────────┐      ┌─────────────┐                   │
-│ │ 数据库  │      │  缓存层  │        │ 阿里云百炼 │      │ 第三方服务  │                   │
-│ │ (MySQL/ │      │ (Redis/  │        │   API      │      │   (可选)    │                   │
-│ │ MongoDB)│      │ MongoDB) │        │            │      │             │                   │
-│ └─────────┘      └──────────┘        └────────────┘      └─────────────┘                   │
+│ │ Database│      │  Cache   │        │ Alibaba    │      │ Third-party │                   │
+│ │ (MySQL/ │      │ (Redis/  │        │ Cloud      │      │ Services    │                   │
+│ │ MongoDB)│      │ MongoDB) │        │ Bailian    │      │ (Optional)  │                   │
+│ └─────────┘      └──────────┘        │ API        │      │             │                   │
+│                                      └────────────┘      └─────────────┘                   │
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-## 组件详细说明
+## Component Detailed Description
 
-### 1. 前端用户界面 (Web/移动端)
+### 1. Front-end User Interface (Web/Mobile)
 
-- **功能**：
-  - 提供用户友好的交互界面
-  - 支持Web和移动端访问
-  - 实现用户注册、登录、API调用等功能
-  - 展示AI模型返回的结果
+- **Functions**:
+  - Provide user-friendly interactive interface
+  - Support Web and mobile access
+  - Implement user registration, login, API calls, etc.
+  - Display results returned by AI models
 
-- **技术栈**：
-  - Web端：React/Vue.js + HTML/CSS
-  - 移动端：React Native/Flutter
-  - 状态管理：Redux/Vuex
+- **Technology Stack**:
+  - Web: React/Vue.js + HTML/CSS
+  - Mobile: React Native/Flutter
+  - State Management: Redux/Vuex
 
-### 2. 后端API服务
+### 2. Back-end API Service
 
-- **功能**：
-  - 接收前端请求并进行处理
-  - 调用内部服务模块
-  - 与阿里云百炼API交互
-  - 返回处理结果给前端
+- **Functions**:
+  - Receive and process front-end requests
+  - Call internal service modules
+  - Interact with Alibaba Cloud Bailian APIs
+  - Return processing results to front-end
 
-- **技术栈**：
+- **Technology Stack**:
   - Node.js/Python(Django/FastAPI)/Java(Spring Boot)
-  - RESTful API 或 GraphQL
+  - RESTful API or GraphQL
 
-### 3. 用户认证和授权模块
+### 3. User Authentication and Authorization Module
 
-- **功能**：
-  - 用户注册、登录、注销
-  - JWT Token生成和验证
-  - OAuth2.0集成（可选）
-  - 权限控制（RBAC模型）
-  - 密码加密存储
+- **Functions**:
+  - User registration, login, logout
+  - JWT Token generation and validation
+  - OAuth2.0 integration (optional)
+  - Access control (RBAC model)
+  - Password encryption storage
 
-- **流程**：
-  1. 用户提交登录凭据
-  2. 验证用户身份
-  3. 生成JWT Token
-  4. 后续请求需携带Token进行身份验证
+- **Process**:
+  1. User submits login credentials
+  2. Verify user identity
+  3. Generate JWT Token
+  4. Subsequent requests require Token for authentication
 
-### 4. 阿里云百炼API集成模块
+### 4. Alibaba Cloud Bailian API Integration Module
 
-- **功能**：
-  - 封装阿里云百炼平台API调用
-  - 处理API请求参数
-  - 解析API响应结果
-  - 错误处理和重试机制
-  - API调用频率限制
+- **Functions**:
+  - Encapsulate Alibaba Cloud Bailian platform API calls
+  - Handle API request parameters
+  - Parse API response results
+  - Error handling and retry mechanisms
+  - API call rate limiting
 
-- **集成的API服务**：
-  - 通义千问（Qwen）大模型
-  - 通义万相（Wanx）图像生成
-  - 通义听悟（Tingwu）语音处理
-  - 其他阿里云百炼平台提供的AI服务
+- **Integrated API Services**:
+  - Qwen large language models
+  - Wanx image generation
+  - Tingwu speech processing
+  - Other AI services provided by Alibaba Cloud Bailian platform
 
-### 5. 数据库
+### 5. Database
 
-- **功能**：
-  - 存储用户信息（账号、密码哈希、个人信息等）
-  - 保存对话历史记录
-  - 记录API调用日志
-  - 存储配置信息
+- **Functions**:
+  - Store user information (account, password hash, personal information, etc.)
+  - Save conversation history
+  - Record API call logs
+  - Store configuration information
 
-- **设计**：
-  - 用户表：存储用户基本信息
-  - 对话表：存储用户与AI的对话历史
-  - API调用记录表：记录用户API使用情况
-  - 配置表：存储系统配置信息
+- **Design**:
+  - User table: Store basic user information
+  - Conversation table: Store user-AI conversation history
+  - API call log table: Record user API usage
+  - Configuration table: Store system configuration information
 
-### 6. 缓存层（可选）
+### 6. Cache Layer (Optional)
 
-- **功能**：
-  - 缓存频繁访问的数据
-  - 提高系统响应速度
-  - 减少数据库压力
-  - 存储会话信息
+- **Functions**:
+  - Cache frequently accessed data
+  - Improve system response speed
+  - Reduce database pressure
+  - Store session information
 
-- **实现**：
-  - Redis：用于存储会话、临时数据
-  - MongoDB：可作为缓存数据库使用
+- **Implementation**:
+  - Redis: Used to store sessions, temporary data
+  - MongoDB: Can be used as a cache database
 
-### 7. 日志和监控模块
+### 7. Logging and Monitoring Module
 
-- **功能**：
-  - 记录系统运行日志
-  - 监控API调用情况
-  - 性能指标收集
-  - 错误追踪和报警
-  - 用户行为分析
+- **Functions**:
+  - Record system operation logs
+  - Monitor API call status
+  - Collect performance metrics
+  - Error tracking and alerting
+  - User behavior analysis
 
-- **实现**：
-  - 日志收集：Logstash/Fluentd
-  - 日志存储：Elasticsearch
-  - 日志展示：Kibana
-  - 监控告警：Prometheus + Grafana
+- **Implementation**:
+  - Log collection: Logstash/Fluentd
+  - Log storage: Elasticsearch
+  - Log visualization: Kibana
+  - Monitoring and alerting: Prometheus + Grafana
 
-## 数据流向说明
+## Data Flow Description
 
-1. **用户访问流程**：
-   - 用户通过Web/移动端访问系统
-   - 请求通过API网关/负载均衡器转发到后端
-   - 前端Web服务器处理静态资源请求
-   - 动态请求由后端API服务处理
+1. **User Access Flow**:
+   - Users access the system via Web/mobile
+   - Requests are forwarded to the back-end through API gateway/load balancer
+   - Front-end web server processes static resource requests
+   - Dynamic requests are handled by back-end API services
 
-2. **认证授权流程**：
-   - 用户提交登录请求
-   - Auth模块验证用户凭据
-   - 验证通过后生成JWT Token
-   - 后续请求需携带Token
+2. **Authentication and Authorization Flow**:
+   - User submits login request
+   - Auth module verifies user credentials
+   - JWT Token is generated upon successful verification
+   - Subsequent requests require Token
 
-3. **AI服务调用流程**：
-   - 用户发起AI服务请求
-   - 后端API服务接收请求
-   - 业务逻辑模块处理请求参数
-   - Bailian API集成模块调用阿里云百炼API
-   - 获取结果后返回给用户
-   - 同时将对话记录存储到数据库
+3. **AI Service Call Flow**:
+   - User initiates AI service request
+   - Back-end API service receives request
+   - Business logic module processes request parameters
+   - Bailian API integration module calls Alibaba Cloud Bailian API
+   - Results are returned to user
+   - Conversation records are simultaneously stored in database
 
-4. **数据存储流程**：
-   - 用户信息存储到用户表
-   - 对话历史存储到对话表
-   - 频繁访问数据缓存到Redis
-   - 系统日志记录到日志系统
+4. **Data Storage Flow**:
+   - User information is stored in user table
+   - Conversation history is stored in conversation table
+   - Frequently accessed data is cached in Redis
+   - System logs are recorded in logging system
 
-## 安全考虑
+## Security Considerations
 
-1. **数据传输安全**：
-   - 使用HTTPS加密传输
-   - 敏感数据加密存储
+1. **Data Transmission Security**:
+   - Use HTTPS encrypted transmission
+   - Encrypt sensitive data storage
 
-2. **访问控制**：
-   - JWT Token验证
-   - RBAC权限控制
+2. **Access Control**:
+   - JWT Token validation
+   - RBAC access control
 
-3. **API安全**：
-   - 请求频率限制
-   - 输入参数验证
-   - 防止注入攻击
+3. **API Security**:
+   - Request rate limiting
+   - Input parameter validation
+   - Prevention of injection attacks
 
-## 扩展性设计
+## Scalability Design
 
-1. **微服务架构**：
-   - 各模块可独立部署和扩展
-   - 通过消息队列进行模块间通信
+1. **Microservices Architecture**:
+   - Each module can be independently deployed and scaled
+   - Inter-module communication through message queues
 
-2. **容器化部署**：
-   - 使用Docker容器化部署
-   - Kubernetes进行容器编排
+2. **Containerized Deployment**:
+   - Use Docker for containerized deployment
+   - Kubernetes for container orchestration
 
-3. **弹性伸缩**：
-   - 根据负载情况自动扩容
-   - 支持多区域部署
+3. **Elastic Scaling**:
+   - Automatic scaling based on load conditions
+   - Support for multi-region deployment
 
-## 总结
+## Summary
 
-本架构设计提供了一个完整的阿里云百炼平台API集成解决方案，具备良好的可扩展性、安全性和可维护性。通过模块化设计，各组件职责清晰，便于后续开发和维护。
+This architecture design provides a complete Alibaba Cloud Bailian platform API integration solution with good scalability, security, and maintainability. Through modular design, each component has clear responsibilities, facilitating subsequent development and maintenance.

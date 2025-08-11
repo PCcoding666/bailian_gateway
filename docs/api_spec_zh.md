@@ -1,4 +1,4 @@
-# API Interface Specification
+# API Interface Specification Design
 
 ## 1. User Authentication Related Interfaces
 
@@ -74,7 +74,7 @@
 **Status Code Description**:
 - 200: Login successful
 - 400: Request parameter error
-- 401: Incorrect username or password
+- 401: Username or password incorrect
 - 403: User account has been disabled
 - 500: Server internal error
 
@@ -171,7 +171,7 @@
 **Request Parameters**:
 - **Body Parameters**:
   - `title` (string, optional): Conversation title
-  - `model_name` (string, required): AI model name used
+  - `model_name` (string, required): AI model name to be used
 
 **Response Format**:
 ```json
@@ -204,7 +204,7 @@
 **Request Parameters**:
 - **Query Parameters**:
   - `page` (integer, optional): Page number, default is 1
-  - `limit` (integer, optional): Number per page, default is 10, maximum 100
+  - `limit` (integer, optional): Number of items per page, default is 10, maximum 100
   - `model_name` (string, optional): Filter by model name
 
 **Response Format**:
@@ -398,7 +398,7 @@
   - `conversation_id` (integer, required): Conversation ID
 - **Query Parameters**:
   - `page` (integer, optional): Page number, default is 1
-  - `limit` (integer, optional): Number per page, default is 20, maximum 100
+  - `limit` (integer, optional): Number of items per page, default is 20, maximum 100
 
 **Response Format**:
 ```json
@@ -485,7 +485,7 @@
 
 **Authentication Requirement**: JWT Token authentication required
 
-## 4. Alibaba Cloud Bailian API Proxy Interfaces
+## 4. Alibaba Cloud Bailian API Proxy Interface
 
 ### 4.1 Call AI Model
 
@@ -504,7 +504,7 @@
       - `video_url` (object, optional): Video URL information (required when type is video_url)
         - `url` (string, required): Video URL
   - `temperature` (number, optional): Sampling temperature, range 0-2, default 1
-  - `max_tokens` (integer, optional): Maximum generated token count
+  - `max_tokens` (integer, optional): Maximum number of tokens to generate
 
 **Response Format**:
 ```json
@@ -550,7 +550,7 @@
 
 **Authentication Requirement**: JWT Token authentication required
 
-## 5. History Record Query Interfaces
+## 5. History Record Query Interface
 
 ### 5.1 Query API Call History
 
@@ -559,7 +559,7 @@
 **Request Parameters**:
 - **Query Parameters**:
   - `page` (integer, optional): Page number, default is 1
-  - `limit` (integer, optional): Number per page, default is 10, maximum 100
+  - `limit` (integer, optional): Number of items per page, default is 10, maximum 100
   - `model_name` (string, optional): Filter by model name
   - `start_date` (string, optional): Start date (YYYY-MM-DD)
   - `end_date` (string, optional): End date (YYYY-MM-DD)

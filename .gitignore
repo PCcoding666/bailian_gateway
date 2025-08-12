@@ -2,7 +2,7 @@
 .env
 
 # IDE
-.vscode/
+.claude
 .idea/
 
 # OS

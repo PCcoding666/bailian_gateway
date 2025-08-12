@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: bailian_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: bailian
+      MYSQL_USER: bailian_user
+      MYSQL_PASSWORD: bailian_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Redis
+  redis:
+    image: redis:6-alpine
+    container_name: bailian_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      timeout: 20s
+      retries: 10
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: bailian_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_USER=bailian_user
+      - DB_PASSWORD=bailian_password
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=bailian
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - QWEN_API_KEY=your-qwen-api-key-here
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: bailian_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+volumes:
+  mysql_data:

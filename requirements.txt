@@ -1,0 +1,2 @@
+# Root Project Requirements
+requests==2.28.1

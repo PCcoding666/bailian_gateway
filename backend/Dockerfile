@@ -1,5 +1,6 @@
 # backend/Dockerfile
-FROM python:3.9-slim
+# 使用阿里云的官方 Python 镜像
+FROM registry.cn-hangzhou.aliyuncs.com/library/python:3.9-slim
 
 WORKDIR /app
 
@@ -12,7 +13,8 @@ RUN apt-get update && apt-get install -y \
 
 # Copy requirements and install Python dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# 更换 pip 源为阿里云并安装依赖
+RUN pip install --no-cache-dir -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 
 # Copy application code
 COPY . .
@@ -25,4 +27,4 @@ USER app
 EXPOSE 8000
 
 # Run the application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

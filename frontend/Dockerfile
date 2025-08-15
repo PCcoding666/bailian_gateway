@@ -1,13 +1,15 @@
 # frontend/Dockerfile
-FROM node:16-alpine
+# 使用阿里云的官方 Node.js 镜像
+FROM registry.cn-hangzhou.aliyuncs.com/library/node:16-alpine
 
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+# 更换 npm 源为淘宝镜像并安装依赖
+RUN npm config set registry https://registry.npmmirror.com && \
+    npm install
 
 # Copy application code
 COPY . .

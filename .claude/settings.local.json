@@ -20,7 +20,17 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:www.alibabacloud.com)",
       "WebFetch(domain:blog.csdn.net)",
-      "Bash(ping:*)"
+      "Bash(ping:*)",
+      "Bash(chmod +x:*)",
+      "Bash(cp:*)",
+      "Bash(touch:*)",
+      "Bash(brew install:*)",
+      "Bash(docker --version:*)",
+      "Bash(sudo launchctl unload:*)",
+      "Bash(sudo launchctl load:*)",
+      "Bash(docker info:*)",
+      "Bash(docker-compose up:*)",
+      "Bash(docker run:*)"
     ],
     "deny": []
   }

@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 3000
 
 # Run the application
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

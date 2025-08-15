@@ -13,13 +13,19 @@ This directory contains the backend API implementation for the Alibaba Cloud Bai
 
 ## Getting Started
 
-### Prerequisites
+### Using Docker (Recommended)
+
+The backend can be run using Docker as part of the full application stack. See the main README for instructions.
+
+### Manual Setup
+
+#### Prerequisites
 
 - Python 3.9+
 - MySQL 8.0+
 - Redis 6+
 
-### Installation
+#### Installation
 
 1. Create a virtual environment:
    ```bash
@@ -43,7 +49,7 @@ This directory contains the backend API implementation for the Alibaba Cloud Bai
    # This will be handled automatically by SQLAlchemy for now
    ```
 
-### Running the Application
+#### Running the Application
 
 1. Start the development server:
    ```bash
@@ -70,4 +76,18 @@ For production deployment, use a WSGI server like Gunicorn:
 
 ```bash
 gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
+```
+
+## Testing
+
+To run backend tests:
+
+```bash
+pytest tests/
+```
+
+For test coverage:
+
+```bash
+pytest tests/ --cov=. --cov-report=html
 ```

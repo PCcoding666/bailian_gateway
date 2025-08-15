@@ -14,12 +14,18 @@ This directory contains the frontend implementation for the Alibaba Cloud Bailia
 
 ## Getting Started
 
-### Prerequisites
+### Using Docker (Recommended)
+
+The frontend can be run using Docker as part of the full application stack. See the main README for instructions.
+
+### Manual Setup
+
+#### Prerequisites
 
 - Node.js 16+
 - npm or yarn
 
-### Installation
+#### Installation
 
 1. Install dependencies:
    ```bash
@@ -77,9 +83,19 @@ The application uses React Router with the following routes:
 
 ## Testing
 
+Run tests with Jest:
+
 ```bash
 npm test
 ```
+
+Run tests with coverage:
+
+```bash
+npm test -- --coverage
+```
+
+Test records are stored in the root `test_records/` directory.
 
 ## Deployment
 

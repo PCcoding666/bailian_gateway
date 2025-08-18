@@ -104,8 +104,9 @@ class BailianAPIService:
                 }
             }
 
-    def call_wanx_model(self, model_name: str, prompt: str, parameters: Dict[str, Any] = None,
-                       user_id: int, client_ip: str = None, user_agent: str = None) -> Dict[str, Any]:
+    def call_wanx_model(self, model_name: str, prompt: str, user_id: int, 
+                       parameters: Dict[str, Any] = None,
+                       client_ip: str = None, user_agent: str = None) -> Dict[str, Any]:
         """Call Wanx model through DashScope API"""
         start_time = time.time()
         

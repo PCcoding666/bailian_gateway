@@ -1,6 +1,6 @@
 # frontend/Dockerfile
 # 使用阿里云的官方 Node.js 镜像
-FROM registry.cn-hangzhou.aliyuncs.com/library/node:16-alpine
+FROM node:18-alpine
 
 WORKDIR /app
 

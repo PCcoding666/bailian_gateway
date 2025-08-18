@@ -1,11 +1,12 @@
 # backend/Dockerfile
 # 使用阿里云的官方 Python 镜像
-FROM registry.cn-hangzhou.aliyuncs.com/library/python:3.9-slim
+FROM python:3.9-slim
 
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
+# Install system dependencies with faster mirrors
+RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list.d/debian.sources && \
+    apt-get update && apt-get install -y \
     gcc \
     default-libmysqlclient-dev \
     pkg-config \

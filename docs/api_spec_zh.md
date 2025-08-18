@@ -1,29 +1,29 @@
-# API Interface Specification Design
+# API接口规范设计
 
-## 1. User Authentication Related Interfaces
+## 1. 用户认证相关接口
 
-### 1.1 User Registration
+### 1.1 用户注册
 
-**HTTP Method**: POST  
-**URL Path**: `/api/auth/register`  
-**Request Parameters**:
-- **Body Parameters**:
-  - `username` (string, required): Username
-  - `email` (string, required): Email address
-  - `password` (string, required): Password
-  - `nickname` (string, optional): User nickname
-  - `phone` (string, optional): Phone number
+**HTTP方法**: POST  
+**URL路径**: `/api/auth/register`  
+**请求参数**:
+- **Body参数**:
+  - `username` (string, 必需): 用户名
+  - `email` (string, 必需): 邮箱地址
+  - `password` (string, 必需): 密码
+  - `nickname` (string, 可选): 用户昵称
+  - `phone` (string, 可选): 手机号
 
-**Response Format**:
+**响应格式**:
 ```json
 {
   "code": 200,
-  "message": "Registration successful",
+  "message": "注册成功",
   "data": {
     "user_id": 123456,
     "username": "example_user",
     "email": "user@example.com",
-    "nickname": "Example",
+    "nickname": "示例用户",
     "avatar_url": null,
     "phone": null,
     "status": 1,
@@ -32,28 +32,28 @@
 }
 ```
 
-**Status Code Description**:
-- 200: Registration successful
-- 400: Request parameter error
-- 409: Username or email already exists
-- 500: Server internal error
+**状态码说明**:
+- 200: 注册成功
+- 400: 请求参数错误
+- 409: 用户名或邮箱已存在
+- 500: 服务器内部错误
 
-**Authentication Requirement**: No authentication required
+**认证要求**: 无需认证
 
-### 1.2 User Login
+### 1.2 用户登录
 
-**HTTP Method**: POST  
-**URL Path**: `/api/auth/login`  
-**Request Parameters**:
-- **Body Parameters**:
-  - `username` (string, required): Username or email
-  - `password` (string, required): Password
+**HTTP方法**: POST  
+**URL路径**: `/api/auth/login`  
+**请求参数**:
+- **Body参数**:
+  - `username` (string, 必需): 用户名或邮箱
+  - `password` (string, 必需): 密码
 
-**Response Format**:
+**响应格式**:
 ```json
 {
   "code": 200,
-  "message": "Login successful",
+  "message": "登录成功",
   "data": {
     "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
     "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -62,7 +62,7 @@
       "user_id": 123456,
       "username": "example_user",
       "email": "user@example.com",
-      "nickname": "Example",
+      "nickname": "示例用户",
       "avatar_url": null,
       "phone": null,
       "status": 1
@@ -71,50 +71,50 @@
 }
 ```
 
-**Status Code Description**:
-- 200: Login successful
-- 400: Request parameter error
-- 401: Username or password incorrect
-- 403: User account has been disabled
-- 500: Server internal error
+**状态码说明**:
+- 200: 登录成功
+- 400: 请求参数错误
+- 401: 用户名或密码不正确
+- 403: 用户账户已被禁用
+- 500: 服务器内部错误
 
-**Authentication Requirement**: No authentication required
+**认证要求**: 无需认证
 
-### 1.3 User Logout
+### 1.3 用户登出
 
-**HTTP Method**: POST  
-**URL Path**: `/api/auth/logout`  
-**Request Parameters**: None
+**HTTP方法**: POST  
+**URL路径**: `/api/auth/logout`  
+**请求参数**: 无
 
-**Response Format**:
+**响应格式**:
 ```json
 {
   "code": 200,
-  "message": "Logout successful",
+  "message": "登出成功",
   "data": null
 }
 ```
 
-**Status Code Description**:
-- 200: Logout successful
-- 401: Not authenticated
-- 500: Server internal error
+**状态码说明**:
+- 200: 登出成功
+- 401: 未认证
+- 500: 服务器内部错误
 
-**Authentication Requirement**: JWT Token authentication required
+**认证要求**: 需要JWT Token认证
 
-### 1.4 Refresh Token
+### 1.4 刷新Token
 
-**HTTP Method**: POST  
-**URL Path**: `/api/auth/refresh`  
-**Request Parameters**:
-- **Body Parameters**:
-  - `refresh_token` (string, required): Refresh token
+**HTTP方法**: POST  
+**URL路径**: `/api/auth/refresh`  
+**请求参数**:
+- **Body参数**:
+  - `refresh_token` (string, 必需): 刷新令牌
 
-**Response Format**:
+**响应格式**:
 ```json
 {
   "code": 200,
-  "message": "Token refresh successful",
+  "message": "令牌刷新成功",
   "data": {
     "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
     "expires_in": 3600
@@ -122,30 +122,30 @@
 }
 ```
 
-**Status Code Description**:
-- 200: Token refresh successful
-- 400: Request parameter error
-- 401: Refresh token is invalid or expired
-- 500: Server internal error
+**状态码说明**:
+- 200: 令牌刷新成功
+- 400: 请求参数错误
+- 401: 刷新令牌无效或已过期
+- 500: 服务器内部错误
 
-**Authentication Requirement**: No authentication required (but valid refresh_token is needed)
+**认证要求**: 无需认证（但需要有效的refresh_token）
 
-### 1.5 Get Current User Information
+### 1.5 获取当前用户信息
 
-**HTTP Method**: GET  
-**URL Path**: `/api/auth/user`  
-**Request Parameters**: None
+**HTTP方法**: GET  
+**URL路径**: `/api/auth/user`  
+**请求参数**: 无
 
-**Response Format**:
+**响应格式**:
 ```json
 {
   "code": 200,
-  "message": "Retrieval successful",
+  "message": "获取成功",
   "data": {
     "user_id": 123456,
     "username": "example_user",
     "email": "user@example.com",
-    "nickname": "Example",
+    "nickname": "示例用户",
     "avatar_url": null,
     "phone": null,
     "status": 1,
@@ -155,32 +155,32 @@
 }
 ```
 
-**Status Code Description**:
-- 200: Retrieval successful
-- 401: Not authenticated
-- 500: Server internal error
+**状态码说明**:
+- 200: 获取成功
+- 401: 未认证
+- 500: 服务器内部错误
 
-**Authentication Requirement**: JWT Token authentication required
+**认证要求**: 需要JWT Token认证
 
-## 2. Conversation Management Interfaces
+## 2. 对话管理接口
 
-### 2.1 Create Conversation
+### 2.1 创建对话
 
-**HTTP Method**: POST  
-**URL Path**: `/api/conversations`  
-**Request Parameters**:
-- **Body Parameters**:
-  - `title` (string, optional): Conversation title
-  - `model_name` (string, required): AI model name to be used
+**HTTP方法**: POST  
+**URL路径**: `/api/conversations`  
+**请求参数**:
+- **Body参数**:
+  - `title` (string, 可选): 对话标题
+  - `model_name` (string, 必需): 要使用的AI模型名称
 
-**Response Format**:
+**响应格式**:
 ```json
 {
   "code": 200,
-  "message": "Creation successful",
+  "message": "创建成功",
   "data": {
     "conversation_id": 789012,
-    "title": "New Conversation",
+    "title": "新对话",
     "model_name": "qwen-vl-max-latest",
     "status": 1,
     "created_at": "2023-01-01T00:00:00Z",
@@ -189,34 +189,34 @@
 }
 ```
 
-**Status Code Description**:
-- 200: Creation successful
-- 400: Request parameter error
-- 401: Not authenticated
-- 500: Server internal error
+**状态码说明**:
+- 200: 创建成功
+- 400: 请求参数错误
+- 401: 未认证
+- 500: 服务器内部错误
 
-**Authentication Requirement**: JWT Token authentication required
+**认证要求**: 需要JWT Token认证
 
-### 2.2 Get Conversation List
+### 2.2 获取对话列表
 
-**HTTP Method**: GET  
-**URL Path**: `/api/conversations`  
-**Request Parameters**:
-- **Query Parameters**:
-  - `page` (integer, optional): Page number, default is 1
-  - `limit` (integer, optional): Number of items per page, default is 10, maximum 100
-  - `model_name` (string, optional): Filter by model name
+**HTTP方法**: GET  
+**URL路径**: `/api/conversations`  
+**请求参数**:
+- **查询参数**:
+  - `page` (integer, 可选): 页码，默认为1
+  - `limit` (integer, 可选): 每页条数，默认为10，最大100
+  - `model_name` (string, 可选): 按模型名称筛选
 
-**Response Format**:
+**响应格式**:
 ```json
 {
   "code": 200,
-  "message": "Retrieval successful",
+  "message": "获取成功",
   "data": {
     "conversations": [
       {
         "conversation_id": 789012,
-        "title": "New Conversation",
+        "title": "新对话",
         "model_name": "qwen-vl-max-latest",
         "status": 1,
         "created_at": "2023-01-01T00:00:00Z",
@@ -233,30 +233,30 @@
 }
 ```
 
-**Status Code Description**:
-- 200: Retrieval successful
-- 400: Request parameter error
-- 401: Not authenticated
-- 500: Server internal error
+**状态码说明**:
+- 200: 获取成功
+- 400: 请求参数错误
+- 401: 未认证
+- 500: 服务器内部错误
 
-**Authentication Requirement**: JWT Token authentication required
+**认证要求**: 需要JWT Token认证
 
-### 2.3 Get Conversation Details
+### 2.3 获取对话详情
 
-**HTTP Method**: GET  
-**URL Path**: `/api/conversations/{conversation_id}`  
-**Request Parameters**:
-- **Path Parameters**:
-  - `conversation_id` (integer, required): Conversation ID
+**HTTP方法**: GET  
+**URL路径**: `/api/conversations/{conversation_id}`  
+**请求参数**:
+- **路径参数**:
+  - `conversation_id` (integer, 必需): 对话ID
 
-**Response Format**:
+**响应格式**:
 ```json
 {
   "code": 200,
-  "message": "Retrieval successful",
+  "message": "获取成功",
   "data": {
     "conversation_id": 789012,
-    "title": "New Conversation",
+    "title": "新对话",
     "model_name": "qwen-vl-max-latest",
     "status": 1,
     "created_at": "2023-01-01T00:00:00Z",
@@ -265,34 +265,34 @@
 }
 ```
 
-**Status Code Description**:
-- 200: Retrieval successful
-- 400: Request parameter error
-- 401: Not authenticated
-- 403: No permission to access this conversation
-- 404: Conversation does not exist
-- 500: Server internal error
+**状态码说明**:
+- 200: 获取成功
+- 400: 请求参数错误
+- 401: 未认证
+- 403: 无权限访问此对话
+- 404: 对话不存在
+- 500: 服务器内部错误
 
-**Authentication Requirement**: JWT Token authentication required
+**认证要求**: 需要JWT Token认证
 
-### 2.4 Update Conversation
+### 2.4 更新对话
 
-**HTTP Method**: PUT  
-**URL Path**: `/api/conversations/{conversation_id}`  
-**Request Parameters**:
-- **Path Parameters**:
-  - `conversation_id` (integer, required): Conversation ID
-- **Body Parameters**:
-  - `title` (string, optional): Conversation title
+**HTTP方法**: PUT  
+**URL路径**: `/api/conversations/{conversation_id}`  
+**请求参数**:
+- **路径参数**:
+  - `conversation_id` (integer, 必需): 对话ID
+- **Body参数**:
+  - `title` (string, 可选): 对话标题
 
-**Response Format**:
+**响应格式**:
 ```json
 {
   "code": 200,
-  "message": "Update successful",
+  "message": "更新成功",
   "data": {
     "conversation_id": 789012,
-    "title": "Updated Conversation Title",
+    "title": "更新后的对话标题",
     "model_name": "qwen-vl-max-latest",
     "status": 1,
     "created_at": "2023-01-01T00:00:00Z",
@@ -301,66 +301,66 @@
 }
 ```
 
-**Status Code Description**:
-- 200: Update successful
-- 400: Request parameter error
-- 401: Not authenticated
-- 403: No permission to modify this conversation
-- 404: Conversation does not exist
-- 500: Server internal error
+**状态码说明**:
+- 200: 更新成功
+- 400: 请求参数错误
+- 401: 未认证
+- 403: 无权限修改此对话
+- 404: 对话不存在
+- 500: 服务器内部错误
 
-**Authentication Requirement**: JWT Token authentication required
+**认证要求**: 需要JWT Token认证
 
-### 2.5 Delete Conversation
+### 2.5 删除对话
 
-**HTTP Method**: DELETE  
-**URL Path**: `/api/conversations/{conversation_id}`  
-**Request Parameters**:
-- **Path Parameters**:
-  - `conversation_id` (integer, required): Conversation ID
+**HTTP方法**: DELETE  
+**URL路径**: `/api/conversations/{conversation_id}`  
+**请求参数**:
+- **路径参数**:
+  - `conversation_id` (integer, 必需): 对话ID
 
-**Response Format**:
+**响应格式**:
 ```json
 {
   "code": 200,
-  "message": "Deletion successful",
+  "message": "删除成功",
   "data": null
 }
 ```
 
-**Status Code Description**:
-- 200: Deletion successful
-- 400: Request parameter error
-- 401: Not authenticated
-- 403: No permission to delete this conversation
-- 404: Conversation does not exist
-- 500: Server internal error
+**状态码说明**:
+- 200: 删除成功
+- 400: 请求参数错误
+- 401: 未认证
+- 403: 无权限删除此对话
+- 404: 对话不存在
+- 500: 服务器内部错误
 
-**Authentication Requirement**: JWT Token authentication required
+**认证要求**: 需要JWT Token认证
 
-## 3. Message Management Interfaces
+## 3. 消息管理接口
 
-### 3.1 Send Message
+### 3.1 发送消息
 
-**HTTP Method**: POST  
-**URL Path**: `/api/conversations/{conversation_id}/messages`  
-**Request Parameters**:
-- **Path Parameters**:
-  - `conversation_id` (integer, required): Conversation ID
-- **Body Parameters**:
-  - `content` (array, required): Message content array
-    - `type` (string, required): Content type (text, image_url, video_url)
-    - `text` (string, optional): Text content (required when type is text)
-    - `image_url` (object, optional): Image URL information (required when type is image_url)
-      - `url` (string, required): Image URL
-    - `video_url` (object, optional): Video URL information (required when type is video_url)
-      - `url` (string, required): Video URL
+**HTTP方法**: POST  
+**URL路径**: `/api/conversations/{conversation_id}/messages`  
+**请求参数**:
+- **路径参数**:
+  - `conversation_id` (integer, 必需): 对话ID
+- **Body参数**:
+  - `content` (array, 必需): 消息内容数组
+    - `type` (string, 必需): 内容类型 (text, image_url, video_url)
+    - `text` (string, 可选): 文本内容 (当type为text时必需)
+    - `image_url` (object, 可选): 图片URL信息 (当type为image_url时必需)
+      - `url` (string, 必需): 图片URL
+    - `video_url` (object, 可选): 视频URL信息 (当type为video_url时必需)
+      - `url` (string, 必需): 视频URL
 
-**Response Format**:
+**响应格式**:
 ```json
 {
   "code": 200,
-  "message": "Send successful",
+  "message": "发送成功",
   "data": {
     "message_id": 345678,
     "conversation_id": 789012,
@@ -370,7 +370,7 @@
     "content": [
       {
         "type": "text",
-        "text": "Hello, please introduce yourself"
+        "text": "你好，请介绍一下你自己"
       }
     ],
     "status": 1,
@@ -379,32 +379,32 @@
 }
 ```
 
-**Status Code Description**:
-- 200: Send successful
-- 400: Request parameter error
-- 401: Not authenticated
-- 403: No permission to send messages in this conversation
-- 404: Conversation does not exist
-- 500: Server internal error
+**状态码说明**:
+- 200: 发送成功
+- 400: 请求参数错误
+- 401: 未认证
+- 403: 无权限在此对话中发送消息
+- 404: 对话不存在
+- 500: 服务器内部错误
 
-**Authentication Requirement**: JWT Token authentication required
+**认证要求**: 需要JWT Token认证
 
-### 3.2 Get Message History
+### 3.2 获取消息历史
 
-**HTTP Method**: GET  
-**URL Path**: `/api/conversations/{conversation_id}/messages`  
-**Request Parameters**:
-- **Path Parameters**:
-  - `conversation_id` (integer, required): Conversation ID
-- **Query Parameters**:
-  - `page` (integer, optional): Page number, default is 1
-  - `limit` (integer, optional): Number of items per page, default is 20, maximum 100
+**HTTP方法**: GET  
+**URL路径**: `/api/conversations/{conversation_id}/messages`  
+**请求参数**:
+- **路径参数**:
+  - `conversation_id` (integer, 必需): 对话ID
+- **查询参数**:
+  - `page` (integer, 可选): 页码，默认为1
+  - `limit` (integer, 可选): 每页条数，默认为20，最大100
 
-**Response Format**:
+**响应格式**:
 ```json
 {
   "code": 200,
-  "message": "Retrieval successful",
+  "message": "获取成功",
   "data": {
     "messages": [
       {
@@ -416,7 +416,7 @@
         "content": [
           {
             "type": "text",
-            "text": "Hello, please introduce yourself"
+            "text": "你好，请介绍一下你自己"
           }
         ],
         "status": 1,
@@ -431,7 +431,7 @@
         "content": [
           {
             "type": "text",
-            "text": "I am Qwen, a large-scale language model under Alibaba Group..."
+            "text": "我是通义千问，阿里巴巴集团旗下的超大规模语言模型..."
           }
         ],
         "status": 1,
@@ -448,69 +448,69 @@
 }
 ```
 
-**Status Code Description**:
-- 200: Retrieval successful
-- 400: Request parameter error
-- 401: Not authenticated
-- 403: No permission to access messages in this conversation
-- 404: Conversation does not exist
-- 500: Server internal error
+**状态码说明**:
+- 200: 获取成功
+- 400: 请求参数错误
+- 401: 未认证
+- 403: 无权限访问此对话中的消息
+- 404: 对话不存在
+- 500: 服务器内部错误
 
-**Authentication Requirement**: JWT Token authentication required
+**认证要求**: 需要JWT Token认证
 
-### 3.3 Delete Message
+### 3.3 删除消息
 
-**HTTP Method**: DELETE  
-**URL Path**: `/api/messages/{message_id}`  
-**Request Parameters**:
-- **Path Parameters**:
-  - `message_id` (integer, required): Message ID
+**HTTP方法**: DELETE  
+**URL路径**: `/api/messages/{message_id}`  
+**请求参数**:
+- **路径参数**:
+  - `message_id` (integer, 必需): 消息ID
 
-**Response Format**:
+**响应格式**:
 ```json
 {
   "code": 200,
-  "message": "Deletion successful",
+  "message": "删除成功",
   "data": null
 }
 ```
 
-**Status Code Description**:
-- 200: Deletion successful
-- 400: Request parameter error
-- 401: Not authenticated
-- 403: No permission to delete this message
-- 404: Message does not exist
-- 500: Server internal error
+**状态码说明**:
+- 200: 删除成功
+- 400: 请求参数错误
+- 401: 未认证
+- 403: 无权限删除此消息
+- 404: 消息不存在
+- 500: 服务器内部错误
 
-**Authentication Requirement**: JWT Token authentication required
+**认证要求**: 需要JWT Token认证
 
-## 4. Alibaba Cloud Bailian API Proxy Interface
+## 4. 阿里云百炼API代理接口
 
-### 4.1 Call AI Model
+### 4.1 调用AI模型
 
-**HTTP Method**: POST  
-**URL Path**: `/api/bailian/chat/completions`  
-**Request Parameters**:
-- **Body Parameters**:
-  - `model` (string, required): Model name, e.g., "qwen-vl-max-latest"
-  - `messages` (array, required): Message history
-    - `role` (string, required): Role (user, assistant, system)
-    - `content` (array, required): Content array
-      - `type` (string, required): Content type (text, image_url, video_url)
-      - `text` (string, optional): Text content (required when type is text)
-      - `image_url` (object, optional): Image URL information (required when type is image_url)
-        - `url` (string, required): Image URL
-      - `video_url` (object, optional): Video URL information (required when type is video_url)
-        - `url` (string, required): Video URL
-  - `temperature` (number, optional): Sampling temperature, range 0-2, default 1
-  - `max_tokens` (integer, optional): Maximum number of tokens to generate
+**HTTP方法**: POST  
+**URL路径**: `/api/bailian/chat/completions`  
+**请求参数**:
+- **Body参数**:
+  - `model` (string, 必需): 模型名称，例如 "qwen-vl-max-latest"
+  - `messages` (array, 必需): 消息历史
+    - `role` (string, 必需): 角色 (user, assistant, system)
+    - `content` (array, 必需): 内容数组
+      - `type` (string, 必需): 内容类型 (text, image_url, video_url)
+      - `text` (string, 可选): 文本内容 (当type为text时必需)
+      - `image_url` (object, 可选): 图片URL信息 (当type为image_url时必需)
+        - `url` (string, 必需): 图片URL
+      - `video_url` (object, 可选): 视频URL信息 (当type为video_url时必需)
+        - `url` (string, 必需): 视频URL
+  - `temperature` (number, 可选): 采样温度，范围0-2，默认1
+  - `max_tokens` (integer, 可选): 最大生成令牌数
 
-**Response Format**:
+**响应格式**:
 ```json
 {
   "code": 200,
-  "message": "Request successful",
+  "message": "请求成功",
   "data": {
     "id": "chatcmpl-123",
     "object": "chat.completion",
@@ -524,7 +524,7 @@
           "content": [
             {
               "type": "text",
-              "text": "I am Qwen, a large-scale language model under Alibaba Group..."
+              "text": "我是通义千问，阿里巴巴集团旗下的超大规模语言模型..."
             }
           ]
         },
@@ -540,35 +540,35 @@
 }
 ```
 
-**Status Code Description**:
-- 200: Request successful
-- 400: Request parameter error
-- 401: Not authenticated
-- 429: Request rate limit exceeded
-- 500: Server internal error
-- 503: Bailian API service unavailable
+**状态码说明**:
+- 200: 请求成功
+- 400: 请求参数错误
+- 401: 未认证
+- 429: 请求频率超出限制
+- 500: 服务器内部错误
+- 503: 百炼API服务不可用
 
-**Authentication Requirement**: JWT Token authentication required
+**认证要求**: 需要JWT Token认证
 
-## 5. History Record Query Interface
+## 5. 历史记录查询接口
 
-### 5.1 Query API Call History
+### 5.1 查询API调用历史
 
-**HTTP Method**: GET  
-**URL Path**: `/api/history/api-calls`  
-**Request Parameters**:
-- **Query Parameters**:
-  - `page` (integer, optional): Page number, default is 1
-  - `limit` (integer, optional): Number of items per page, default is 10, maximum 100
-  - `model_name` (string, optional): Filter by model name
-  - `start_date` (string, optional): Start date (YYYY-MM-DD)
-  - `end_date` (string, optional): End date (YYYY-MM-DD)
+**HTTP方法**: GET  
+**URL路径**: `/api/history/api-calls`  
+**请求参数**:
+- **查询参数**:
+  - `page` (integer, 可选): 页码，默认为1
+  - `limit` (integer, 可选): 每页条数，默认为10，最大100
+  - `model_name` (string, 可选): 按模型名称筛选
+  - `start_date` (string, 可选): 开始日期 (YYYY-MM-DD)
+  - `end_date` (string, 可选): 结束日期 (YYYY-MM-DD)
 
-**Response Format**:
+**响应格式**:
 ```json
 {
   "code": 200,
-  "message": "Retrieval successful",
+  "message": "获取成功",
   "data": {
     "api_calls": [
       {
@@ -597,29 +597,29 @@
 }
 ```
 
-**Status Code Description**:
-- 200: Retrieval successful
-- 400: Request parameter error
-- 401: Not authenticated
-- 500: Server internal error
+**状态码说明**:
+- 200: 获取成功
+- 400: 请求参数错误
+- 401: 未认证
+- 500: 服务器内部错误
 
-**Authentication Requirement**: JWT Token authentication required
+**认证要求**: 需要JWT Token认证
 
-### 5.2 Query Conversation History Statistics
+### 5.2 查询对话历史统计
 
-**HTTP Method**: GET  
-**URL Path**: `/api/history/conversations/statistics`  
-**Request Parameters**:
-- **Query Parameters**:
-  - `start_date` (string, optional): Start date (YYYY-MM-DD)
-  - `end_date` (string, optional): End date (YYYY-MM-DD)
-  - `model_name` (string, optional): Filter by model name
+**HTTP方法**: GET  
+**URL路径**: `/api/history/conversations/statistics`  
+**请求参数**:
+- **查询参数**:
+  - `start_date` (string, 可选): 开始日期 (YYYY-MM-DD)
+  - `end_date` (string, 可选): 结束日期 (YYYY-MM-DD)
+  - `model_name` (string, 可选): 按模型名称筛选
 
-**Response Format**:
+**响应格式**:
 ```json
 {
   "code": 200,
-  "message": "Retrieval successful",
+  "message": "获取成功",
   "data": {
     "total_conversations": 15,
     "total_messages": 128,
@@ -650,10 +650,10 @@
 }
 ```
 
-**Status Code Description**:
-- 200: Retrieval successful
-- 400: Request parameter error
-- 401: Not authenticated
-- 500: Server internal error
+**状态码说明**:
+- 200: 获取成功
+- 400: 请求参数错误
+- 401: 未认证
+- 500: 服务器内部错误
 
-**Authentication Requirement**: JWT Token authentication required
+**认证要求**: 需要JWT Token认证

@@ -1,0 +1,138 @@
+{
+  "name": "bailian-demo-alb-production",
+  "scheme": "internet-facing",
+  "type": "application",
+  "ip_address_type": "ipv4",
+  "vpc_id": "vpc-xxxxxxxxx",
+  "subnet_ids": [
+    "vsw-xxxxxxxxx",
+    "vsw-yyyyyyyyy"
+  ],
+  "security_group_ids": [
+    "sg-xxxxxxxxx"
+  ],
+  "target_groups": [
+    {
+      "name": "bailian-backend-tg-production",
+      "protocol": "HTTP",
+      "port": 8000,
+      "vpc_id": "vpc-xxxxxxxxx",
+      "target_type": "ip",
+      "health_check": {
+        "enabled": true,
+        "protocol": "HTTP",
+        "port": 8000,
+        "path": "/health/ready",
+        "interval": 30,
+        "timeout": 5,
+        "healthy_threshold": 2,
+        "unhealthy_threshold": 3,
+        "success_codes": "200"
+      }
+    },
+    {
+      "name": "bailian-metrics-tg-production",
+      "protocol": "HTTP",
+      "port": 8000,
+      "vpc_id": "vpc-xxxxxxxxx",
+      "target_type": "ip",
+      "health_check": {
+        "enabled": true,
+        "protocol": "HTTP",
+        "port": 8000,
+        "path": "/metrics",
+        "interval": 60,
+        "timeout": 10,
+        "healthy_threshold": 2,
+        "unhealthy_threshold": 2,
+        "success_codes": "200"
+      }
+    }
+  ],
+  "listeners": [
+    {
+      "port": 80,
+      "protocol": "HTTP",
+      "default_actions": [
+        {
+          "type": "redirect",
+          "redirect": {
+            "protocol": "HTTPS",
+            "port": "443",
+            "status_code": "HTTP_301"
+          }
+        }
+      ],
+      "rules": [
+        {
+          "priority": 100,
+          "conditions": [
+            {
+              "field": "path-pattern",
+              "values": [
+                "/api/*"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": "forward",
+              "target_group_arn": "bailian-backend-tg-production"
+            }
+          ]
+        },
+        {
+          "priority": 200,
+          "conditions": [
+            {
+              "field": "path-pattern",
+              "values": [
+                "/health*"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": "forward",
+              "target_group_arn": "bailian-backend-tg-production"
+            }
+          ]
+        },
+        {
+          "priority": 300,
+          "conditions": [
+            {
+              "field": "path-pattern",
+              "values": [
+                "/metrics"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": "forward",
+              "target_group_arn": "bailian-metrics-tg-production"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "port": 443,
+      "protocol": "HTTPS",
+      "default_actions": [
+        {
+          "type": "forward",
+          "target_group_arn": "bailian-backend-tg-production"
+        }
+      ],
+      "rules": []
+    }
+  ],
+  "tags": {
+    "Environment": "production",
+    "Project": "bailian-demo",
+    "ManagedBy": "terraform",
+    "Component": "load-balancer"
+  }
+}

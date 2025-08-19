@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Installing Python dependencies...
+      - cd backend
+      - python3 -m pip install --upgrade pip
+      - pip3 install -r requirements.txt
+      - pip3 install pytest pytest-asyncio aiohttp
+      
+  build:
+    commands:
+      - echo Running unit tests...
+      - python3 -m pytest tests/ -v --tb=short
+      - echo Running integration tests...
+      - cd ../tests
+      - python3 integration_testing.py
+      - echo Running performance tests...
+      - python3 performance_testing.py
+      
+  post_build:
+    commands:
+      - echo Test results available in test reports
+
+artifacts:
+  files:
+    - "**/*test*report*.json"
+    - "**/*test*report*.xml"
+  name: TestResults

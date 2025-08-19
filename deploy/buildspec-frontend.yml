@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Installing dependencies...
+      - cd frontend
+      - npm install
+      
+  build:
+    commands:
+      - echo Building React application...
+      - npm run build
+      - echo Build completed on `date`
+      
+  post_build:
+    commands:
+      - echo Preparing for OSS deployment...
+      - ls -la dist/
+
+artifacts:
+  files:
+    - frontend/dist/**/*
+  name: FrontendBuildArtifact
+  base-directory: frontend

@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Alibaba Cloud Container Registry...
+      - docker login --username=$CR_USERNAME --password=$CR_PASSWORD registry.cn-hangzhou.aliyuncs.com
+      
+  build:
+    commands:
+      - echo Building backend Docker image...
+      - cd backend
+      - docker build -t bailian-demo-backend:$CODEBUILD_BUILD_NUMBER .
+      - docker tag bailian-demo-backend:$CODEBUILD_BUILD_NUMBER registry.cn-hangzhou.aliyuncs.com/bailian-demo-backend:$CODEBUILD_BUILD_NUMBER
+      - docker tag bailian-demo-backend:$CODEBUILD_BUILD_NUMBER registry.cn-hangzhou.aliyuncs.com/bailian-demo-backend:latest
+      
+  post_build:
+    commands:
+      - echo Pushing Docker image to Container Registry...
+      - docker push registry.cn-hangzhou.aliyuncs.com/bailian-demo-backend:$CODEBUILD_BUILD_NUMBER
+      - docker push registry.cn-hangzhou.aliyuncs.com/bailian-demo-backend:latest
+      - echo Writing image definitions file...
+      - printf '[{"name":"bailian-demo-backend","imageUri":"registry.cn-hangzhou.aliyuncs.com/bailian-demo-backend:$CODEBUILD_BUILD_NUMBER"}]' > imagedefinitions.json
+
+artifacts:
+  files:
+    - imagedefinitions.json
+    - k8s/**/*
+  name: BackendBuildArtifact

@@ -184,3 +184,7 @@ def log_execution_time(logger: CloudLogger):
 
 # Global logger instance
 cloud_logger = CloudLogger()
+
+def get_logger(name: str = "bailian-backend") -> CloudLogger:
+    """Get a logger instance with the specified name"""
+    return CloudLogger(name)

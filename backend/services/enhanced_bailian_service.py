@@ -19,11 +19,11 @@ from dashscope import Generation, MultiModalConversation
 
 # Internal dependencies
 from services.api_call_service import APICallService
-from utils.cloud_logger import get_logger
+from utils.cloud_logger import cloud_logger
 from utils.metrics import record_ai_request, record_token_usage
 
 # Configure logger
-logger = get_logger(__name__)
+logger = cloud_logger
 
 class SupportedModels(Enum):
     """Supported Qwen and Wanx models"""

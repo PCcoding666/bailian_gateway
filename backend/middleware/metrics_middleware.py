@@ -2,4 +2,77 @@
 Metrics Middleware for automatic Prometheus metrics collection
 """
 
-import time\nfrom typing import Callable\nfrom fastapi import Request, Response\nfrom starlette.middleware.base import BaseHTTPMiddleware\nfrom utils.metrics import metrics\n\nclass MetricsMiddleware(BaseHTTPMiddleware):\n    \"\"\"Middleware for automatic metrics collection\"\"\"\n    \n    async def dispatch(self, request: Request, call_next: Callable) -> Response:\n        \"\"\"Process request with metrics collection\"\"\"\n        \n        # Start tracking request\n        metrics.start_http_request()\n        start_time = time.time()\n        \n        # Get request details\n        method = request.method\n        path = request.url.path\n        \n        # Normalize path for metrics (remove IDs and dynamic parts)\n        normalized_path = self._normalize_path(path)\n        \n        try:\n            # Process request\n            response = await call_next(request)\n            \n            # Calculate duration\n            duration = time.time() - start_time\n            \n            # Record metrics\n            metrics.record_http_request(\n                method=method,\n                endpoint=normalized_path,\n                status_code=response.status_code,\n                duration=duration\n            )\n            \n            return response\n            \n        except Exception as e:\n            # Calculate duration for failed request\n            duration = time.time() - start_time\n            \n            # Record metrics with 500 status code for exceptions\n            metrics.record_http_request(\n                method=method,\n                endpoint=normalized_path,\n                status_code=500,\n                duration=duration\n            )\n            \n            # Re-raise the exception\n            raise\n            \n        finally:\n            # Always decrement in-progress counter\n            metrics.end_http_request()\n    \n    def _normalize_path(self, path: str) -> str:\n        \"\"\"Normalize path for metrics by removing dynamic parts\"\"\"\n        # Remove common ID patterns\n        import re\n        \n        # Replace UUIDs\n        path = re.sub(r'/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', '/{id}', path)\n        \n        # Replace numeric IDs\n        path = re.sub(r'/\\d+', '/{id}', path)\n        \n        # Replace other common patterns\n        path = re.sub(r'/[0-9a-zA-Z]{20,}', '/{token}', path)\n        \n        return path
+import time
+from typing import Callable
+from fastapi import Request, Response
+from starlette.middleware.base import BaseHTTPMiddleware
+from utils.metrics import metrics
+
+class MetricsMiddleware(BaseHTTPMiddleware):
+    """Middleware for automatic metrics collection"""
+    
+    async def dispatch(self, request: Request, call_next: Callable) -> Response:
+        """Process request with metrics collection"""
+        
+        # Start tracking request
+        metrics.start_http_request()
+        start_time = time.time()
+        
+        # Get request details
+        method = request.method
+        path = request.url.path
+        
+        # Normalize path for metrics (remove IDs and dynamic parts)
+        normalized_path = self._normalize_path(path)
+        
+        try:
+            # Process request
+            response = await call_next(request)
+            
+            # Calculate duration
+            duration = time.time() - start_time
+            
+            # Record metrics
+            metrics.record_http_request(
+                method=method,
+                endpoint=normalized_path,
+                status_code=response.status_code,
+                duration=duration
+            )
+            
+            return response
+            
+        except Exception as e:
+            # Calculate duration for failed request
+            duration = time.time() - start_time
+            
+            # Record metrics with 500 status code for exceptions
+            metrics.record_http_request(
+                method=method,
+                endpoint=normalized_path,
+                status_code=500,
+                duration=duration
+            )
+            
+            # Re-raise the exception
+            raise
+            
+        finally:
+            # Always decrement in-progress counter
+            metrics.end_http_request()
+    
+    def _normalize_path(self, path: str) -> str:
+        """Normalize path for metrics by removing dynamic parts"""
+        # Remove common ID patterns
+        import re
+        
+        # Replace UUIDs
+        path = re.sub(r'/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', '/{id}', path)
+        
+        # Replace numeric IDs
+        path = re.sub(r'/\d+', '/{id}', path)
+        
+        # Replace other common patterns
+        path = re.sub(r'/[0-9a-zA-Z]{20,}', '/{token}', path)
+        
+        return path

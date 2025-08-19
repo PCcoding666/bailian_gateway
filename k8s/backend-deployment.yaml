@@ -1,0 +1,174 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bailian-backend
+  namespace: bailian-prod
+  labels:
+    app: bailian-backend
+    version: v1.0.0
+    tier: backend
+    component: api-server
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: bailian-backend
+  template:
+    metadata:
+      labels:
+        app: bailian-backend
+        version: v1.0.0
+        tier: backend
+        component: api-server
+      annotations:
+        prometheus.io/scrape: \"true\"
+        prometheus.io/port: \"8000\"
+        prometheus.io/path: \"/metrics\"
+    spec:
+      serviceAccountName: bailian-backend-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+      - name: backend
+        image: registry.cn-hangzhou.aliyuncs.com/bailian/backend:latest
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 8000
+          protocol: TCP
+        env:
+        # Database configuration
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: bailian-db-secret
+              key: host
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: bailian-db-secret
+              key: port
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: bailian-db-secret
+              key: database
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: bailian-db-secret
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bailian-db-secret
+              key: password
+        # Redis configuration
+        - name: REDIS_HOST
+          valueFrom:
+            secretKeyRef:
+              name: bailian-redis-secret
+              key: host
+        - name: REDIS_PORT
+          valueFrom:
+            secretKeyRef:
+              name: bailian-redis-secret
+              key: port
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bailian-redis-secret
+              key: password
+        # AI service configuration
+        - name: QWEN_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: bailian-ai-secret
+              key: dashscope-api-key
+        # Application configuration
+        - name: APP_ENV
+          value: \"production\"
+        - name: LOG_LEVEL
+          value: \"INFO\"
+        - name: JWT_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: bailian-app-secret
+              key: jwt-secret
+        resources:
+          requests:
+            memory: \"256Mi\"
+            cpu: \"250m\"
+          limits:
+            memory: \"512Mi\"
+            cpu: \"500m\"
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /health/live
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 30
+        volumeMounts:
+        - name: app-config
+          mountPath: /app/config
+          readOnly: true
+        - name: logs
+          mountPath: /app/logs
+      volumes:
+      - name: app-config
+        configMap:
+          name: bailian-backend-config
+      - name: logs
+        emptyDir: {}
+      nodeSelector:
+        kubernetes.io/os: linux
+      tolerations:
+      - key: \"node.kubernetes.io/not-ready\"
+        operator: \"Exists\"
+        effect: \"NoExecute\"
+        tolerationSeconds: 300
+      - key: \"node.kubernetes.io/unreachable\"
+        operator: \"Exists\"
+        effect: \"NoExecute\"
+        tolerationSeconds: 300
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - bailian-backend
+              topologyKey: kubernetes.io/hostname

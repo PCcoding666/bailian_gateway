@@ -22,8 +22,11 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 # Copy requirements and install Python dependencies
 COPY requirements.txt .
-RUN pip install --upgrade pip setuptools wheel && \
-    pip install --no-cache-dir -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
+RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/ && \
+    pip config set global.trusted-host mirrors.aliyun.com && \
+    pip config set global.timeout 60 && \
+    pip install --upgrade pip setuptools wheel --no-cache-dir && \
+    pip install --no-cache-dir -r requirements.txt
 
 # Stage 2: Runtime image
 FROM python:3.9-slim AS runtime
